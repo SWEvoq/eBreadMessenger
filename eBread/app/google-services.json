@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "71434734398",
+    "firebase_url": "https://ebread-c16e6.firebaseio.com",
+    "project_id": "ebread-c16e6",
+    "storage_bucket": "ebread-c16e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:71434734398:android:ea9a40006e7558d2",
+        "android_client_info": {
+          "package_name": "swevoq.ebread.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "71434734398-cchhikb02pscn8q7er69q83ti1amhivo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "swevoq.ebread.com",
+            "certificate_hash": "cae25866126671458354caeb979d3680748e2f49"
+          }
+        },
+        {
+          "client_id": "71434734398-gp2mvvhv1l3c2klhiamkcbqgmpifd5qq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzSMWDHOeJJxurayZU23c3nXofSyszEXs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "71434734398-gp2mvvhv1l3c2klhiamkcbqgmpifd5qq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
