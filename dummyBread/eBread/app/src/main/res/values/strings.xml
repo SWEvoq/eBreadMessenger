@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">eBread</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_forgot_password">Dimenticato la password?</string>
+    <string name="btn_link_to_register">Non un membro? Registrati ad eBread ora!</string>
+    <string name="btn_sign_out">Esci</string>
+    <string name="btn_remove">Cancellazione account</string>
+    <string name="lbl_forgot_password">Dimenticato la password?</string>
+    <string name="forgot_password_msg">Hai bisogno solo della email di registrazione per recuperare la password.</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="email">Email</string>
+    <string name="action_sign_in_short">Registrami</string>
+    <string name="btn_link_to_login">Già registrato. Autenticami!</string>
+    <string name="minimum_password">Password troppo corta, inserisci almeno 8 caratteri!</string>
+    <string name="auth_failed">Autenticazione fallita, controlla email e password oppure registrati!</string>
+    <string name="hint_enter_a_message">Inserisci un messaggio...</string>
+    <string name="action_delete">Cancella</string>
+</resources>
