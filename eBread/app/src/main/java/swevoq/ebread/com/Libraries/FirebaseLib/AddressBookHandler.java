@@ -101,7 +101,6 @@ public class AddressBookHandler {
         } catch (IOException | JSONException x ) {
             x.printStackTrace();
         }
-        Log.d("MyApp",result.toString());
         return result;
     }
 

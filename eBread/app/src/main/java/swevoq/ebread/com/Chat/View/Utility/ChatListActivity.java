@@ -184,8 +184,14 @@ public class ChatListActivity extends AppCompatActivity {
                 ChatListActivity.this.startActivity(intent);
                 finish();
                 return true;
-            case R.id.action_settings:
-                // apro impostazioni
+            case R.id.action_personal_settings:
+                Log.d("MyApp","Impostazioni personali");
+                return true;
+            case R.id.action_voice_settings:
+                Log.d("MyApp","Impostazioni voce");
+                return true;
+            case R.id.action_text_settings:
+                Log.d("MyApp","Impostazioni testo");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
