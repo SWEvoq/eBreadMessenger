@@ -29,6 +29,7 @@ import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Chat.Presenter.Utility.ChatListPresenter;
 import swevoq.ebread.com.Chat.View.Chat.ChatActivity;
+import swevoq.ebread.com.Chat.View.Settings.ProfileSettingsActivity;
 import swevoq.ebread.com.R;
 
 public class ChatListActivity extends AppCompatActivity {
@@ -179,13 +180,16 @@ public class ChatListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_addressbook:
                 // apro rubrica
-                Intent intent = new Intent(ChatListActivity.this, AddressBookActivity.class);
-                intent.putExtra("compState",false);
-                ChatListActivity.this.startActivity(intent);
+                Intent addressbookIntent = new Intent(ChatListActivity.this, AddressBookActivity.class);
+                addressbookIntent.putExtra("compState",false);
+                ChatListActivity.this.startActivity(addressbookIntent);
                 finish();
                 return true;
             case R.id.action_personal_settings:
-                Log.d("MyApp","Impostazioni personali");
+                //apro impostazioni personali
+                Intent personalsettingsIntent = new Intent(ChatListActivity.this, ProfileSettingsActivity.class);
+                ChatListActivity.this.startActivity(personalsettingsIntent);
+                finish();
                 return true;
             case R.id.action_voice_settings:
                 Log.d("MyApp","Impostazioni voce");

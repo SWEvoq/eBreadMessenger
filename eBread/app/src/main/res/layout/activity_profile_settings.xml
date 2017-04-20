@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="swevoq.ebread.com.Chat.View.Settings.ProfileSettingsActivity">
+
+    <ImageView
+        android:id="@+id/personalProfileImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cropToPadding="false"
+        android:paddingTop="7pt"
+        android:paddingBottom="7pt"
+        app:srcCompat="@drawable/default_profile_picture"/>
+    <Button
+        android:id="@+id/deleteProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personalProfileImg"
+        android:text="@string/action_delete_picture" />
+    <Button
+        android:id="@+id/updateProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personalProfileImg"
+        android:layout_toRightOf="@+id/deleteProfilePicture"
+        android:text="@string/action_update_picture" />
+
+
+
+</RelativeLayout>
