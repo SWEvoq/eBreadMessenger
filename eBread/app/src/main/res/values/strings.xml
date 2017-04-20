@@ -21,9 +21,14 @@
     <string name="action_addressbook">Rubrica</string>
     <string name="action_settings">Impostazioni</string>
     <string name="action_delete_friends">Cancella contatti</string>
+    <string name="action_personal_settings">Impostazioni personali</string>
+    <string name="action_voice_settings">Impostazioni voce di sintesi</string>
+    <string name="action_text_settings">Impostazioni testo</string>
     <string-array name="voices_array">
         <item>istc-speaker_internazionale-hsmm</item>
         <item>istc-lucia-hsmm</item>
     </string-array>
     <string name="default_voice">istc-speaker_internazionale-hsmm</string>
+    <string name="action_delete_picture">Elimina immagine profilo</string>
+    <string name="action_update_picture">Aggiorna immagine profilo</string>
 </resources>

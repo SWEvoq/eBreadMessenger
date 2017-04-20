@@ -1,5 +1,6 @@
 package swevoq.ebread.com.Chat.View.Chat;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,13 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
     public void onBind(Message message) {
         super.onBind(message);
 
+        /*
+        bubble.setBackgroundColor(Color.parseColor("#b3e5fc"));
+        text.setTextColor(Color.BLUE);
+        text.setTextScaleX(3);
+        text.setTextSize(14);
+        */
+        
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

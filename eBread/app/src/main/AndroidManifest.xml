@@ -31,6 +31,9 @@
         <activity
             android:name=".Chat.View.Utility.AddressBookActivity"
             android:theme="@style/InsideTheme" />
+        <activity
+            android:name=".Chat.View.Settings.ProfileSettingsActivity"
+            android:theme="@style/InsideTheme" />
     </application>
 
 </manifest>
