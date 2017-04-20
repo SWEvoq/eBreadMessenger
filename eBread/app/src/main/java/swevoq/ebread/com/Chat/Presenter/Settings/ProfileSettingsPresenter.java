@@ -1,9 +1,12 @@
 package swevoq.ebread.com.Chat.Presenter.Settings;
 
 import android.app.DownloadManager;
+import android.net.Uri;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Libraries.FirebaseLib.FirebaseAccessPoint;
@@ -29,5 +32,17 @@ public class ProfileSettingsPresenter {
 
     public void updateUser(User dummy) {
         firebase.updateUser(dummy);
+    }
+
+    public UploadTask uploadAvatar(Uri imgLocalPath) {
+        return firebase.uploadAvatar(imgLocalPath);
+    }
+
+    public StorageReference getAvatar() {
+        return firebase.getAvatar();
+    }
+
+    public void updateAvatar(String url) {
+        firebase.updateAvatar(url);
     }
 }

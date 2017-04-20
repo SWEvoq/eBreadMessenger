@@ -126,4 +126,8 @@ public class ChatHandler {
     public Query getUsers(FirebaseDatabase database) {
         return database.getReference("users");
     }
+
+    public void updateAvatar(FirebaseDatabase database, String url) {
+        database.getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("avatar").setValue(url);
+    }
 }

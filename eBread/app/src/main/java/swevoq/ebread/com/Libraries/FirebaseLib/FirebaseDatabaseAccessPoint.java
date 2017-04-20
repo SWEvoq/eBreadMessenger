@@ -99,4 +99,8 @@ public class FirebaseDatabaseAccessPoint {
     public void updateUser(User dummy) {
         settingsHandler.updateUser(database,dummy);
     }
+
+    public void updateAvatar(String url) {
+        chatHandler.updateAvatar(database,url);
+    }
 }

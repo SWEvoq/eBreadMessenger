@@ -103,7 +103,7 @@ public class AddressBookActivity extends AppCompatActivity {
                                     alertDialogBuilder.setView(promptView);
 
                                     final TextView profileInfo = (TextView) promptView.findViewById(R.id.profileInfo);
-                                    String details = userData.getRealName() + " " + userData.getSurname() + "\n" + userData.getUsername();
+                                    String details = userData.getRealName() + " " + userData.getSurname() + "\n" + userData.getUsername() + "\n" + "@" + userData.getNickname();
                                     profileInfo.setText(details);
                                     final ImageView profileImg = (ImageView) promptView.findViewById(R.id.profileImg);
                                     Picasso.with(context).load(userData.getAvatar()).resize(400,400).into(profileImg);
