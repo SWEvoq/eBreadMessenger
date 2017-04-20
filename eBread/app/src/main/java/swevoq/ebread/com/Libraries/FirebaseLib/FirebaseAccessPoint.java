@@ -107,4 +107,8 @@ public class FirebaseAccessPoint {
     public void setContactVoice(Context context,String userClicked, String voiceName) {
         database.setContactVoice(context,userClicked,voiceName);
     }
+
+    public void updateUser(User dummy) {
+        database.updateUser(dummy);
+    }
 }

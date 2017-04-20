@@ -1,45 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="swevoq.ebread.com.Chat.View.Settings.ProfileSettingsActivity">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/personalProfileImg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/updateProfilePicture"
+        android:cropToPadding="false"
+        android:paddingTop="10dp"
+        app:srcCompat="@drawable/default_profile_picture" />
+
+    <Button
+        android:id="@+id/deleteProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/action_delete_picture"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignStart="@+id/updateProfilePicture"
+        android:layout_alignEnd="@+id/updateProfilePicture" />
+
+    <Button
+        android:id="@+id/updateProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="@string/action_update_picture"
+        android:textColor="@android:color/black"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="7dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"/>
+
+    <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/personalProfileImg"
+        android:orientation="vertical"
         android:paddingTop="20dp">
 
-        <ImageView
-            android:id="@+id/personalProfileImg"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="18dp"
-            android:layout_toStartOf="@+id/updateProfilePicture"
-            android:cropToPadding="false"
-            android:paddingLeft="10dp"
-            app:srcCompat="@drawable/default_profile_picture" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputNickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_enter_nickname"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/colorSecondaryText" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_enter_name"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/colorSecondaryText" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/inputSurname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_enter_surname"
+                android:inputType="text"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/colorSecondaryText" />
+        </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/updateProfilePicture"
+            android:id="@+id/updateProfileSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/deleteProfilePicture"
-            android:text="@string/action_update_picture" />
+            android:background="@color/colorAccent"
+            android:padding="10dp"
+            android:text="@string/action_update_profile_settings"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
 
-        <Button
-            android:id="@+id/deleteProfilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/action_delete_picture"
-            android:layout_below="@+id/updateProfilePicture"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
-
-</LinearLayout>
+</RelativeLayout>

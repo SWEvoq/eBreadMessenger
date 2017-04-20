@@ -37,8 +37,6 @@ import swevoq.ebread.com.Chat.View.Utility.ChatListActivity;
 
 public class ChatHandler {
 
-    public ChatHandler(){}
-
     public void saveUser(FirebaseDatabase database, FirebaseUser id){
         User utente = new User(id.getUid(),id.getEmail(),"","","","https://cdn2.iconfinder.com/data/icons/rcons-user/32/male-circle-128.png");
         database.getReference("users").child(id.getUid()).setValue(utente);

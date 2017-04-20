@@ -29,6 +29,10 @@
         <item>istc-lucia-hsmm</item>
     </string-array>
     <string name="default_voice">istc-speaker_internazionale-hsmm</string>
-    <string name="action_delete_picture">Elimina immagine profilo</string>
-    <string name="action_update_picture">Aggiorna immagine profilo</string>
+    <string name="action_delete_picture">Elimina Avatar</string>
+    <string name="action_update_picture">Aggiorna Avatar</string>
+    <string name="hint_enter_nickname">Inserisci nickname</string>
+    <string name="hint_enter_name">Inserisci nome</string>
+    <string name="hint_enter_surname">Inserisci cognome</string>
+    <string name="action_update_profile_settings">Aggiorna Informazioni</string>
 </resources>

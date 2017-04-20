@@ -31,11 +31,13 @@ public class FirebaseDatabaseAccessPoint {
     private FirebaseDatabase database;
     private ChatHandler chatHandler;
     private AddressBookHandler addressbookHandler;
+    private SettingsHandler settingsHandler;
 
     public FirebaseDatabaseAccessPoint(){
         database = FirebaseDatabase.getInstance();
         chatHandler = new ChatHandler();
         addressbookHandler = new AddressBookHandler();
+        settingsHandler = new SettingsHandler();
     }
 
     public void saveUser(FirebaseUser id){
@@ -92,5 +94,9 @@ public class FirebaseDatabaseAccessPoint {
 
     public void setContactVoice(Context context,String userClicked, String voiceName) {
         addressbookHandler.setContactVoice(context,userClicked,voiceName);
+    }
+
+    public void updateUser(User dummy) {
+        settingsHandler.updateUser(database,dummy);
     }
 }
