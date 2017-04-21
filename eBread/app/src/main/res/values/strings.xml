@@ -24,15 +24,35 @@
     <string name="action_personal_settings">Impostazioni personali</string>
     <string name="action_voice_settings">Impostazioni voce di sintesi</string>
     <string name="action_text_settings">Impostazioni testo</string>
-    <string-array name="voices_array">
-        <item>istc-speaker_internazionale-hsmm</item>
-        <item>istc-lucia-hsmm</item>
-    </string-array>
-    <string name="default_voice">istc-speaker_internazionale-hsmm</string>
     <string name="action_delete_picture">Elimina Avatar</string>
     <string name="action_update_picture">Aggiorna Avatar</string>
     <string name="hint_enter_nickname">Inserisci nickname</string>
     <string name="hint_enter_name">Inserisci nome</string>
     <string name="hint_enter_surname">Inserisci cognome</string>
     <string name="action_update_profile_settings">Aggiorna Informazioni</string>
+    <string name="action_update_voice_settings">Aggiorna Impostazioni</string>
+    <string name="action_preview_settings">Ascolta Esempio</string>
+    <string name="switch_highlight">Mostra evidenziazzione</string>
+    <string name="switch_voice">Riproduci voce</string>
+    <string-array name="voices_array">
+        <item>istc-speaker_internazionale-hsmm</item>
+        <item>istc-lucia-hsmm</item>
+    </string-array>
+    <string-array name="voices_languages_array">
+        <item>it</item>
+    </string-array>
+    <string-array name="voices_speed_array">
+        <item>lenta</item>
+        <item>normale</item>
+        <item>veloce</item>
+        <item>super veloce</item>
+    </string-array>
+    <string-array name="highlight_delay_type_array">
+        <item>ritarda evidenziazione in avanti</item>
+        <item>ritarda evidenziazione all\'indietro</item>
+    </string-array>
+    <string-array name="highlight_type_array">
+        <item>evidenziazione per lettera</item>
+        <item>evidenziazione per parola</item>
+    </string-array>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,27 +34,21 @@ import swevoq.ebread.com.Chat.View.Utility.ChatListActivity;
 import swevoq.ebread.com.R;
 
 public class ProfileSettingsActivity extends AppCompatActivity {
-    private ImageView avatar;
-    private Button updateAvatarButton;
-    private Button removeAvatarButton;
-    private Button updatePersonalSettings;
-    private EditText insertNickname;
-    private EditText insertName;
-    private EditText insertSurname;
     private ProfileSettingsPresenter presenter;
     private int PICK_IMAGE_REQUEST = 111;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_settings);
-
-        avatar = (ImageView) findViewById(R.id.personalProfileImg);
-        updateAvatarButton = (Button) findViewById(R.id.updateProfilePicture);
-        removeAvatarButton = (Button) findViewById(R.id.deleteProfilePicture);
-        updatePersonalSettings = (Button) findViewById(R.id.updateProfileSettings);
-        insertNickname = (EditText) findViewById(R.id.inputNickname);
-        insertName = (EditText) findViewById(R.id.inputName);
-        insertSurname = (EditText) findViewById(R.id.inputSurname);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Impostazioni personali");
+        final ImageView avatar = (ImageView) findViewById(R.id.personalProfileImg);
+        Button updateAvatarButton = (Button) findViewById(R.id.updateProfilePicture);
+        Button removeAvatarButton = (Button) findViewById(R.id.deleteProfilePicture);
+        Button updatePersonalSettings = (Button) findViewById(R.id.updateProfileSettings);
+        final EditText insertNickname = (EditText) findViewById(R.id.inputNickname);
+        final EditText insertName = (EditText) findViewById(R.id.inputName);
+        final EditText insertSurname = (EditText) findViewById(R.id.inputSurname);
         presenter = new ProfileSettingsPresenter();
         final User dummy = new User();
         final Context context = this;

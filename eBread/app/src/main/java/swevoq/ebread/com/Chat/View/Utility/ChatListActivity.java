@@ -30,6 +30,7 @@ import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Chat.Presenter.Utility.ChatListPresenter;
 import swevoq.ebread.com.Chat.View.Chat.ChatActivity;
 import swevoq.ebread.com.Chat.View.Settings.ProfileSettingsActivity;
+import swevoq.ebread.com.Chat.View.Settings.VoiceSettingsActivity;
 import swevoq.ebread.com.R;
 
 public class ChatListActivity extends AppCompatActivity {
@@ -192,7 +193,9 @@ public class ChatListActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_voice_settings:
-                Log.d("MyApp","Impostazioni voce");
+                Intent voicesettingsIntent = new Intent(ChatListActivity.this, VoiceSettingsActivity.class);
+                ChatListActivity.this.startActivity(voicesettingsIntent);
+                finish();
                 return true;
             case R.id.action_text_settings:
                 Log.d("MyApp","Impostazioni testo");

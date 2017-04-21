@@ -21,6 +21,7 @@ import swevoq.ebread.com.Chat.Model.Chat.Chat;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
+import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Chat.Model.Utility.AddressBook;
 
 /**
@@ -102,5 +103,14 @@ public class FirebaseDatabaseAccessPoint {
 
     public void updateAvatar(String url) {
         chatHandler.updateAvatar(database,url);
+    }
+
+    public VoiceSettings getVoiceSettings(Context context) {
+        return settingsHandler.getVoiceSettings(context);
+    }
+
+
+    public void updateVoiceSettings(Context context, VoiceSettings updatedVoiceSettings) {
+        settingsHandler.updateUserVoiceSettings(context,updatedVoiceSettings);
     }
 }
