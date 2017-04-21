@@ -64,7 +64,7 @@ public class AddressBookHandler {
 
         if(jsonAddressBook!=null){
             try {
-                jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).put(username,context.getString(R.string.default_voice));
+                jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).put(username," ");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -72,7 +72,7 @@ public class AddressBookHandler {
             jsonAddressBook = new JSONObject();
             JSONObject newFriend = new JSONObject();
             try {
-                newFriend.put(username, context.getString(R.string.default_voice));
+                newFriend.put(username, " ");
                 jsonAddressBook.put(FirebaseAuth.getInstance().getCurrentUser().getUid(),newFriend);
             } catch (JSONException e) {
                 e.printStackTrace();

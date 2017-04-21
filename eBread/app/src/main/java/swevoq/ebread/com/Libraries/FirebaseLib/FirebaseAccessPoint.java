@@ -1,6 +1,7 @@
 package swevoq.ebread.com.Libraries.FirebaseLib;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -9,6 +10,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 
 import org.w3c.dom.Text;
@@ -21,6 +24,7 @@ import swevoq.ebread.com.Chat.Model.Chat.Chat;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
+import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Chat.Model.Utility.AddressBook;
 
 /**
@@ -30,10 +34,12 @@ import swevoq.ebread.com.Chat.Model.Utility.AddressBook;
 public class FirebaseAccessPoint {
     private FirebaseAuthAccessPoint auth;
     private FirebaseDatabaseAccessPoint database;
+    private FirebaseStorageAccessPoint storage;
 
     public FirebaseAccessPoint(){
         auth = new FirebaseAuthAccessPoint();
         database = new FirebaseDatabaseAccessPoint();
+        storage = new FirebaseStorageAccessPoint();
     }
 
     public Task<AuthResult> signUp(String email, String password){
@@ -106,5 +112,30 @@ public class FirebaseAccessPoint {
 
     public void setContactVoice(Context context,String userClicked, String voiceName) {
         database.setContactVoice(context,userClicked,voiceName);
+    }
+
+    public void updateUser(User dummy) {
+        database.updateUser(dummy);
+    }
+
+    public UploadTask uploadAvatar(Uri imgLocalPath) {
+        return storage.uploadAvatar(imgLocalPath);
+    }
+
+
+    public StorageReference getAvatar() {
+        return storage.getAvatar();
+    }
+
+    public void updateAvatar(String url) {
+        database.updateAvatar(url);
+    }
+
+    public VoiceSettings getVoiceSettings(Context context) {
+        return database.getVoiceSettings(context);
+    }
+
+    public void updateVoiceSettings(Context context, VoiceSettings updatedVoiceSettings) {
+        database.updateVoiceSettings(context,updatedVoiceSettings);
     }
 }

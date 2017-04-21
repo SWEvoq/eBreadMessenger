@@ -21,6 +21,7 @@ import swevoq.ebread.com.Chat.Model.Chat.Chat;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
+import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Chat.Model.Utility.AddressBook;
 
 /**
@@ -31,11 +32,13 @@ public class FirebaseDatabaseAccessPoint {
     private FirebaseDatabase database;
     private ChatHandler chatHandler;
     private AddressBookHandler addressbookHandler;
+    private SettingsHandler settingsHandler;
 
     public FirebaseDatabaseAccessPoint(){
         database = FirebaseDatabase.getInstance();
         chatHandler = new ChatHandler();
         addressbookHandler = new AddressBookHandler();
+        settingsHandler = new SettingsHandler();
     }
 
     public void saveUser(FirebaseUser id){
@@ -92,5 +95,22 @@ public class FirebaseDatabaseAccessPoint {
 
     public void setContactVoice(Context context,String userClicked, String voiceName) {
         addressbookHandler.setContactVoice(context,userClicked,voiceName);
+    }
+
+    public void updateUser(User dummy) {
+        settingsHandler.updateUser(database,dummy);
+    }
+
+    public void updateAvatar(String url) {
+        chatHandler.updateAvatar(database,url);
+    }
+
+    public VoiceSettings getVoiceSettings(Context context) {
+        return settingsHandler.getVoiceSettings(context);
+    }
+
+
+    public void updateVoiceSettings(Context context, VoiceSettings updatedVoiceSettings) {
+        settingsHandler.updateUserVoiceSettings(context,updatedVoiceSettings);
     }
 }
