@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="swevoq.ebread.com.Chat.View.Settings.VoiceSettingsActivity">
+    tools:context="swevoq.ebread.com.Chat.View.Settings.TextSettingsActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingBottom="10pt"
             android:paddingLeft="5pt"
@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10pt"
                 android:paddingBottom="10pt"
-                android:text="Voce di default"
+                android:text="Colore testo messaggio"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -36,12 +36,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seleziona voce:"
+                    android:text="Seleziona colore:"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
                     android:padding="5pt"/>
                 <Spinner
-                    android:id="@+id/defaultVoiceSpinner"
+                    android:id="@+id/textColorSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10pt"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10pt"
                 android:paddingBottom="10pt"
-                android:text="Lingua voce di sintesi"
+                android:text="Colore bolla messaggio"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -64,12 +64,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seleziona lingua:"
+                    android:text="Seleziona colore:"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
                     android:padding="5pt"/>
                 <Spinner
-                    android:id="@+id/languageVoiceSpinner"
+                    android:id="@+id/bubbleColorSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10pt"
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10pt"
                 android:paddingBottom="10pt"
-                android:text="Velocità voce di sintesi"
+                android:text="Colore di evidenziazione"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -92,12 +92,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Seleziona velocità:"
+                    android:text="Seleziona colore:"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
                     android:padding="5pt"/>
                 <Spinner
-                    android:id="@+id/speedVoiceSpinner"
+                    android:id="@+id/highlightColorSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10pt"
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10pt"
                 android:paddingBottom="10pt"
-                android:text="Tipo di ritardo evidenziazione"
+                android:text="Font"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -120,24 +120,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ritarda evidenziazione:"
+                    android:text="Seleziona font :"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
                     android:padding="5pt"/>
                 <Spinner
-                    android:id="@+id/highlightDelayTypeSpinner"
+                    android:id="@+id/textFontSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10pt"
                     android:textAlignment="center"/>
             </LinearLayout>
             <TextView
-                android:id="@+id/fifthSeparator"
+                android:id="@+id/sixthSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10pt"
                 android:paddingBottom="10pt"
-                android:text="Tipo di evidenziazione"
+                android:text="Dimensione caratteri"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -148,56 +148,54 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Evidenziazione per:"
+                    android:text="Seleziona dimensione:"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
                     android:padding="5pt"/>
                 <Spinner
-                    android:id="@+id/highlightTypeSpinner"
+                    android:id="@+id/fontSizeSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10pt"
                     android:textAlignment="center"/>
             </LinearLayout>
-            <Switch
-                android:id="@+id/highlightSwitch"
+            <TextView
+                android:id="@+id/seventhSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/switch_highlight"
-                android:textStyle="bold"
                 android:paddingTop="10pt"
-                android:paddingBottom="10pt" />
-            <Switch
-                android:id="@+id/voiceSwitch"
+                android:paddingBottom="10pt"
+                android:text="Spaziatura caratteri"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/switch_voice"
-                android:textStyle="bold"
-                android:paddingBottom="10pt" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/previewVoiceSettings"
+                android:orientation="horizontal"
+                android:paddingBottom="10pt">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:padding="10dp"
-                    android:text="@string/action_preview_settings"
-                    android:textColor="@android:color/black"/>
-                <Button
-                    android:id="@+id/updateVoiceSettings"
-                    android:layout_width="wrap_content"
+                    android:text="Seleziona spaziatura:"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/black"
+                    android:padding="5pt"/>
+                <Spinner
+                    android:id="@+id/fontSpacingSpinner"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:padding="10dp"
-                    android:text="@string/action_update_voice_settings"
-                    android:textColor="@android:color/black"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
-            </RelativeLayout>
+                    android:paddingBottom="10pt"
+                    android:textAlignment="center"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/updateTextSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:padding="10dp"
+                android:text="@string/action_update_voice_settings"
+                android:textColor="@android:color/black"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

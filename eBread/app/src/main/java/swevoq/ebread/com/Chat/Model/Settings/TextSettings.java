@@ -7,18 +7,18 @@ package swevoq.ebread.com.Chat.Model.Settings;
 public class TextSettings {
     private String textColor;
     private String bubbleColor;
-    private String fontSize;
-    private String fontSpacing;
+    private int fontSize;
+    private int fontSpacing;
     private String textFont;
     private String highlightColor;
 
     public TextSettings() {
-        textColor = " ";
-        bubbleColor = " ";
-        fontSize = " ";
-        fontSpacing = " ";
-        textFont = " ";
-        highlightColor = " ";
+        textColor = "Black";
+        bubbleColor = "Yellow";
+        fontSize = 12;
+        fontSpacing = 1;
+        textFont = "Roboto";
+        highlightColor = "Light Blue";
     }
 
     public String getTextColor() {
@@ -37,19 +37,19 @@ public class TextSettings {
         this.bubbleColor = bubbleColor;
     }
 
-    public String getFontSize() {
+    public int getFontSize() {
         return fontSize;
     }
 
-    public void setFontSize(String fontSize) {
+    public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
     }
 
-    public String getFontSpacing() {
+    public int getFontSpacing() {
         return fontSpacing;
     }
 
-    public void setFontSpacing(String fontSpacing) {
+    public void setFontSpacing(int fontSpacing) {
         this.fontSpacing = fontSpacing;
     }
 
