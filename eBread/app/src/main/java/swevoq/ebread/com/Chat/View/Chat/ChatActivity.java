@@ -118,6 +118,8 @@ public class ChatActivity extends AppCompatActivity implements MessagesListAdapt
             }
         };
         MessagesListAdapter.HoldersConfig holdersConfig = new MessagesListAdapter.HoldersConfig();
+        holdersConfig.setIncomingLayout(R.layout.item_custom_incoming_message);
+        holdersConfig.setOutcomingLayout(R.layout.item_custom_outcoming_message);
         holdersConfig.setIncomingHolder(CustomIncomingMessageViewHolder.class);
         holdersConfig.setOutcomingHolder(CustomOutcomingMessageViewHolder.class);
         adapter = new MessagesListAdapter<>(presenter.getLoggedUser().getUid(),holdersConfig,imageLoader);

@@ -93,30 +93,30 @@ public class TextSettingsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> fontSizeSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.sizes_array, android.R.layout.simple_spinner_item);
         fontSizeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fontSizeSpinner.setAdapter(fontSizeSpinnerAdapter);
-        if(usersTextSettings.getFontSize()==10)
-            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Piccolo"));
-        else if(usersTextSettings.getFontSize()==11)
-            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Medio"));
-        else if(usersTextSettings.getFontSize()==12)
-            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Normale"));
-        else if(usersTextSettings.getFontSize()==13)
-            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Grande"));
         if(usersTextSettings.getFontSize()==14)
+            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Piccolo"));
+        else if(usersTextSettings.getFontSize()==15)
+            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Medio"));
+        else if(usersTextSettings.getFontSize()==16)
+            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Normale"));
+        else if(usersTextSettings.getFontSize()==17)
+            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Grande"));
+        if(usersTextSettings.getFontSize()==18)
             fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Molto Grande"));
 
         final Spinner fontSpacingSpinner = (Spinner)findViewById(R.id.fontSpacingSpinner);
         ArrayAdapter<CharSequence> fontSpacingSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.sizes_array, android.R.layout.simple_spinner_item);
         fontSpacingSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fontSpacingSpinner.setAdapter(fontSpacingSpinnerAdapter);
-        if(usersTextSettings.getFontSpacing()==1)
+        if(usersTextSettings.getFontSpacing()==0)
             fontSpacingSpinner.setSelection(fontSpacingSpinnerAdapter.getPosition("Piccolo"));
-        else if(usersTextSettings.getFontSpacing()==2)
+        else if(usersTextSettings.getFontSpacing()==1)
             fontSpacingSpinner.setSelection(fontSpacingSpinnerAdapter.getPosition("Medio"));
-        else if(usersTextSettings.getFontSpacing()==3)
+        else if(usersTextSettings.getFontSpacing()==2)
             fontSpacingSpinner.setSelection(fontSpacingSpinnerAdapter.getPosition("Normale"));
-        if(usersTextSettings.getFontSpacing()==4)
+        if(usersTextSettings.getFontSpacing()==3)
             fontSpacingSpinner.setSelection(fontSpacingSpinnerAdapter.getPosition("Grande"));
-        if(usersTextSettings.getFontSpacing()==5)
+        if(usersTextSettings.getFontSpacing()==4)
             fontSpacingSpinner.setSelection(fontSpacingSpinnerAdapter.getPosition("Molto Grande"));
 
         Button updateTextSettings = (Button)findViewById(R.id.updateTextSettings);

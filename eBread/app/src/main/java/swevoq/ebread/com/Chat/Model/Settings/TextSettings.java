@@ -1,5 +1,9 @@
 package swevoq.ebread.com.Chat.Model.Settings;
 
+import android.graphics.Color;
+
+import java.util.HashMap;
+
 /**
  * Created by Teslaru Nicolae on 20/04/2017.
  */
@@ -15,8 +19,8 @@ public class TextSettings {
     public TextSettings() {
         textColor = "Black";
         bubbleColor = "Yellow";
-        fontSize = 12;
-        fontSpacing = 1;
+        fontSize = 16;
+        fontSpacing = 0;
         textFont = "Roboto";
         highlightColor = "Light Blue";
     }
@@ -69,6 +73,19 @@ public class TextSettings {
         this.highlightColor = highlightColor;
     }
 
+    public int getColorByName(String colorName){
+        HashMap<String,Integer> result = new HashMap<>();
+        result.put("Blue Grey", Color.parseColor("#78909c"));
+        result.put("Grey", Color.parseColor("#bdbdbd"));
+        result.put("Deep Orange", Color.parseColor("#ff7043"));
+        result.put("Yellow", Color.parseColor("#ffee58"));
+        result.put("Light Green", Color.parseColor("#9ccc65"));
+        result.put("Light Blue", Color.parseColor("#81d4fa"));
+        result.put("Red", Color.parseColor("#ef9a9a"));
+        result.put("Black", Color.BLACK);
+        result.put("White", Color.WHITE);
+        return result.get(colorName);
+    }
     @Override
     public String toString() {
         return "TextSettings{" +
