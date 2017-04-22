@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Chat.Presenter.Settings.VoiceSettingsPresenter;
@@ -61,18 +62,18 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         highlightDelayTypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         highlightDelayTypeSpinner.setAdapter(highlightDelayTypeSpinnerAdapter);
         if(usersVoiceSettings.isForwardHighlight())
-            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("ritarda evidenziazione in avanti"));
+            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("in avanti"));
         else
-            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("ritarda evidenziazione all\'indietro"));
+            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("all\'indietro"));
 
         final Spinner highlightTypeSpinner = (Spinner)findViewById(R.id.highlightTypeSpinner);
         ArrayAdapter<CharSequence> highlightTypeSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.highlight_type_array, android.R.layout.simple_spinner_item);
         highlightTypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         highlightTypeSpinner.setAdapter(highlightTypeSpinnerAdapter);
         if(usersVoiceSettings.isWordHighlight())
-            highlightTypeSpinner.setSelection(highlightTypeSpinnerAdapter.getPosition("evidenziazione per parola"));
+            highlightTypeSpinner.setSelection(highlightTypeSpinnerAdapter.getPosition("parola"));
         else
-            highlightTypeSpinner.setSelection(highlightTypeSpinnerAdapter.getPosition("evidenziazione per lettera"));
+            highlightTypeSpinner.setSelection(highlightTypeSpinnerAdapter.getPosition("lettera"));
 
         final Switch highlightSwitch = (Switch)findViewById(R.id.highlightSwitch);
         highlightSwitch.setChecked(usersVoiceSettings.isShowHighlight());
@@ -102,17 +103,18 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     updatedVoiceSettings.setVoiceRate(1.5);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("super veloce"))
                     updatedVoiceSettings.setVoiceRate(2.0);
-                if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("ritarda evidenziazione in avanti"))
+                if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("in avanti"))
                     updatedVoiceSettings.setForwardHighlight(true);
-                else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("ritarda evidenziazione all\'indietro"))
+                else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("all\'indietro"))
                     updatedVoiceSettings.setForwardHighlight(false);
-                if(highlightTypeSpinner.getSelectedItem().toString().equals("evidenziazione per parola"))
+                if(highlightTypeSpinner.getSelectedItem().toString().equals("parola"))
                     updatedVoiceSettings.setWordHighlight(true);
-                else if(highlightTypeSpinner.getSelectedItem().toString().equals("evidenziazione per lettera"))
+                else if(highlightTypeSpinner.getSelectedItem().toString().equals("lettera"))
                     updatedVoiceSettings.setWordHighlight(false);
                 updatedVoiceSettings.setShowHighlight(highlightSwitch.isChecked());
                 updatedVoiceSettings.setPlayVoice(voiceSwitch.isChecked());
                 presenter.updateVoiceSettings(context,updatedVoiceSettings);
+                Toast.makeText(context,"Le impostazioni sono state aggiornate!",Toast.LENGTH_SHORT).show();
             }
         });
     }

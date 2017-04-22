@@ -92,6 +92,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 dummy.setSurname(insertSurname.getText().toString());
                 dummy.setNickname(insertNickname.getText().toString());
                 presenter.updateUser(dummy);
+                Toast.makeText(context,"Le impostazioni sono state aggiornate!",Toast.LENGTH_SHORT).show();
             }
         });
     }

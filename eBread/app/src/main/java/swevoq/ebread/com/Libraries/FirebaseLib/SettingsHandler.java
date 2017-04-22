@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import swevoq.ebread.com.Chat.Model.Profile.User;
+import swevoq.ebread.com.Chat.Model.Settings.TextSettings;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 
 /**
@@ -47,7 +48,7 @@ public class SettingsHandler {
         return result;
     }
 
-    public void updateUserVoiceSettings(Context context,VoiceSettings voiceSettings){
+    public void updateVoiceSettings(Context context,VoiceSettings voiceSettings){
         JSONObject usersVoiceSettings = new JSONObject();
         JSONObject newVoiceSettings = new JSONObject();
         try {
@@ -63,7 +64,6 @@ public class SettingsHandler {
             e.printStackTrace();
         }
         try{
-            Log.d("MyApp","Sal,kbkjbhkvo:"+usersVoiceSettings.toString());
             FileOutputStream file = context.openFileOutput("voicesettings.txt",context.MODE_PRIVATE);
             file.write(usersVoiceSettings.toString().getBytes());
             file.close();
@@ -77,6 +77,62 @@ public class SettingsHandler {
         JSONObject result = null;
         try{
             FileInputStream file = context.openFileInput("voicesettings.txt");
+            int size = file.available();
+            byte[] buffer = new byte[size];
+            file.read(buffer);
+            file.close();
+            String myJson = new String(buffer,"UTF-8");
+            result = new JSONObject(myJson);
+        }catch(IOException|JSONException x){
+            x.printStackTrace();
+        }
+        return result;
+    }
+    public void updateTextSettings(Context context, TextSettings updatedTextSettings) {
+        JSONObject usersTextSettings = new JSONObject();
+        JSONObject newTextSettings = new JSONObject();
+        try {
+            newTextSettings.put("textColor",updatedTextSettings.getTextColor());
+            newTextSettings.put("bubbleColor", updatedTextSettings.getBubbleColor());
+            newTextSettings.put("fontSize",updatedTextSettings.getFontSize());
+            newTextSettings.put("fontSpacing",updatedTextSettings.getFontSpacing());
+            newTextSettings.put("textFont",updatedTextSettings.getTextFont());
+            newTextSettings.put("highlightColor",updatedTextSettings.getHighlightColor());
+            usersTextSettings.put(FirebaseAuth.getInstance().getCurrentUser().getUid(),newTextSettings);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            FileOutputStream file = context.openFileOutput("textsettings.txt",context.MODE_PRIVATE);
+            file.write(usersTextSettings.toString().getBytes());
+            file.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    public TextSettings getTextSettings(Context context) {
+        TextSettings result = new TextSettings();
+        JSONObject usersTextSettings = readTextSettings(context);
+        if(usersTextSettings!=null){
+            try {
+                JSONObject voiceSettings = usersTextSettings.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                result.setTextColor(voiceSettings.getString("textColor"));
+                result.setBubbleColor(voiceSettings.getString("bubbleColor"));
+                result.setFontSize(voiceSettings.getInt("fontSize"));
+                result.setFontSpacing(voiceSettings.getInt("fontSpacing"));
+                result.setTextFont(voiceSettings.getString("textFont"));
+                result.setHighlightColor(voiceSettings.getString("highlightColor"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    private JSONObject readTextSettings(Context context){
+        JSONObject result = null;
+        try{
+            FileInputStream file = context.openFileInput("textsettings.txt");
             int size = file.available();
             byte[] buffer = new byte[size];
             file.read(buffer);

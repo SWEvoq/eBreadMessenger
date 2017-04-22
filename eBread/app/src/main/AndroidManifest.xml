@@ -37,6 +37,9 @@
         <activity
             android:name=".Chat.View.Settings.VoiceSettingsActivity"
             android:theme="@style/InsideTheme" />
+        <activity
+            android:name=".Chat.View.Settings.TextSettingsActivity"
+            android:theme="@style/InsideTheme" />
     </application>
 
 </manifest>

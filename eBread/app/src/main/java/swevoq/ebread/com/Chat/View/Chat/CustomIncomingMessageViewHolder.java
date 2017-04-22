@@ -28,7 +28,7 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
         text.setTextScaleX(3);
         text.setTextSize(14);
         */
-        
+
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
