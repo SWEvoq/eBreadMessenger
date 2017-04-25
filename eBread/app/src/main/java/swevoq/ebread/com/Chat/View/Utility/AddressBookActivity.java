@@ -117,6 +117,7 @@ public class AddressBookActivity extends AppCompatActivity {
                                     final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.voices_array, android.R.layout.simple_spinner_item);
                                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     voiceSpinner.setAdapter(arrayAdapter);
+                                    voiceSpinner.setSelection(arrayAdapter.getPosition(presenter.getUserVoice(context,userData.getUsername())));
 
                                     alertDialogBuilder.setNegativeButton("Blocca contatto", new DialogInterface.OnClickListener() {
                                         @Override

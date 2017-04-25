@@ -147,4 +147,8 @@ public class FirebaseAccessPoint {
     public void updateTextSettings(Context context, TextSettings updatedTextSettings) {
         database.updateTextSettings(context,updatedTextSettings);
     }
+
+    public String getUserVoice(Context context,String id) {
+        return database.getUserVoice(context,id);
+    }
 }

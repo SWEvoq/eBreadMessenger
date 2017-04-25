@@ -10,6 +10,7 @@ import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Presenter.Chat.ChatPresenter;
+import swevoq.ebread.com.Libraries.FATTSLib.FATTSServices;
 
 /**
  * Created by Nicolae on 06/04/2017.
@@ -21,7 +22,7 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
     }
 
     @Override
-    public void onBind(Message message) {
+    public void onBind(final Message message) {
         super.onBind(message);
         time.setTextColor(Color.GRAY);
 
@@ -32,7 +33,8 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //Qui si dovranno fare le chiamate al player : ricordare view.getContext()
+                FATTSServices servece = new FATTSServices(text,message);
+                servece.performAudioRequest();
             }
         });
 

@@ -155,11 +155,28 @@ public class AddressBookHandler {
                 JSONObject jsonUserFriends = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 jsonUserFriends.put(userClicked,voiceName);
                 FileOutputStream file = context.openFileOutput("addressbook.txt",context.MODE_PRIVATE);
+                Log.d("Myapp",jsonAddressBook.toString());
                 file.write(jsonAddressBook.toString().getBytes());
                 file.close();
             } catch (JSONException|IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getUserVoice(Context context,String id) {
+        JSONObject jsonAddressBook = readAddressBook(context);
+        String result = "";
+        if(jsonAddressBook!=null){
+            try {
+                result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(result.equals(""))
+            return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceName();
+        else
+            return result;
     }
 }
