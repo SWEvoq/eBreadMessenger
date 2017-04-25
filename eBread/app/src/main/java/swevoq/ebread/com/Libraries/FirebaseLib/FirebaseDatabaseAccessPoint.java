@@ -122,4 +122,8 @@ public class FirebaseDatabaseAccessPoint {
     public void updateTextSettings(Context context, TextSettings updatedTextSettings) {
         settingsHandler.updateTextSettings(context,updatedTextSettings);
     }
+
+    public String getUserVoice(Context context,String id) {
+        return addressbookHandler.getUserVoice(context,id);
+    }
 }

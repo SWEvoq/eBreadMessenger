@@ -47,13 +47,13 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> speedVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_speed_array, android.R.layout.simple_spinner_item);
         speedVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedVoiceSpinner.setAdapter(speedVoiceSpinnerAdapter);
-        if(usersVoiceSettings.getVoiceRate() == 0.5)
+        if(usersVoiceSettings.getVoiceRate() == 1.5)
             speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("lento"));
         else if(usersVoiceSettings.getVoiceRate() == 1.0)
             speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("normale"));
-        else if(usersVoiceSettings.getVoiceRate() == 1.5)
+        else if(usersVoiceSettings.getVoiceRate() == 0.7)
             speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("veloce"));
-        else if(usersVoiceSettings.getVoiceRate() == 2.0)
+        else if(usersVoiceSettings.getVoiceRate() == 0.4)
             speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("super veloce"));
 
 
@@ -96,13 +96,13 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                 updatedVoiceSettings.setVoiceName(defaultVoiceSpinner.getSelectedItem().toString());
                 updatedVoiceSettings.setVoiceLanguage(languageVoiceSpinner.getSelectedItem().toString());
                 if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
-                    updatedVoiceSettings.setVoiceRate(0.5);
+                    updatedVoiceSettings.setVoiceRate(1.5);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("normale"))
                     updatedVoiceSettings.setVoiceRate(1.0);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("veloce"))
-                    updatedVoiceSettings.setVoiceRate(1.5);
+                    updatedVoiceSettings.setVoiceRate(0.7);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("super veloce"))
-                    updatedVoiceSettings.setVoiceRate(2.0);
+                    updatedVoiceSettings.setVoiceRate(0.4);
                 if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("in avanti"))
                     updatedVoiceSettings.setForwardHighlight(true);
                 else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("all\'indietro"))
