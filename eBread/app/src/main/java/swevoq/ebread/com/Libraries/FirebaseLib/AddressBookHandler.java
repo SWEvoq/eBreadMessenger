@@ -59,7 +59,7 @@ public class AddressBookHandler {
         return result;
     }
 
-    public void updateAddressBook(Context context,String username){
+    private void updateAddressBook(Context context,String username){
         JSONObject jsonAddressBook = readAddressBook(context);
 
         if(jsonAddressBook!=null){
@@ -169,7 +169,7 @@ public class AddressBookHandler {
         String result = "";
         if(jsonAddressBook!=null){
             try {
-                result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id);
+                result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

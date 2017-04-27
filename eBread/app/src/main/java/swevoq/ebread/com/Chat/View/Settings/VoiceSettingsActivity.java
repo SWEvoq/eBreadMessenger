@@ -11,11 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Chat.Presenter.Settings.VoiceSettingsPresenter;
 import swevoq.ebread.com.Chat.View.Utility.ChatListActivity;
+import swevoq.ebread.com.Libraries.FATTSLib.FATTSPlayer;
+import swevoq.ebread.com.Libraries.FATTSLib.FATTSServices;
 import swevoq.ebread.com.R;
 
 public class VoiceSettingsActivity extends AppCompatActivity {
@@ -85,7 +89,30 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         previewVoiceSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Riproduzione audio di esempio
+                FATTSServices player = new FATTSServices(new TextView(context),new TextMessage());
+                VoiceSettings updatedVoiceSettings = new VoiceSettings();
+                updatedVoiceSettings.setVoiceName(defaultVoiceSpinner.getSelectedItem().toString());
+                updatedVoiceSettings.setVoiceLanguage(languageVoiceSpinner.getSelectedItem().toString());
+                if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
+                    updatedVoiceSettings.setVoiceRate(1.5);
+                else if(speedVoiceSpinner.getSelectedItem().toString().equals("normale"))
+                    updatedVoiceSettings.setVoiceRate(1.0);
+                else if(speedVoiceSpinner.getSelectedItem().toString().equals("veloce"))
+                    updatedVoiceSettings.setVoiceRate(0.7);
+                else if(speedVoiceSpinner.getSelectedItem().toString().equals("super veloce"))
+                    updatedVoiceSettings.setVoiceRate(0.4);
+                if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("in avanti"))
+                    updatedVoiceSettings.setForwardHighlight(true);
+                else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("all\'indietro"))
+                    updatedVoiceSettings.setForwardHighlight(false);
+                if(highlightTypeSpinner.getSelectedItem().toString().equals("parola"))
+                    updatedVoiceSettings.setWordHighlight(true);
+                else if(highlightTypeSpinner.getSelectedItem().toString().equals("lettera"))
+                    updatedVoiceSettings.setWordHighlight(false);
+                updatedVoiceSettings.setShowHighlight(highlightSwitch.isChecked());
+                updatedVoiceSettings.setPlayVoice(voiceSwitch.isChecked());
+                presenter.updateVoiceSettings(context,updatedVoiceSettings);
+                player.performTestAudioRequest(updatedVoiceSettings);
             }
         });
         Button updateVoiceSettings = (Button)findViewById(R.id.updateVoiceSettings);

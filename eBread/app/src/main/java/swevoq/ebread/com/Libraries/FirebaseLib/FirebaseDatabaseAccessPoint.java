@@ -126,4 +126,9 @@ public class FirebaseDatabaseAccessPoint {
     public String getUserVoice(Context context,String id) {
         return addressbookHandler.getUserVoice(context,id);
     }
+
+    public void enableFirebaseCache() {
+        DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference();
+        scoresRef.keepSynced(true);
+    }
 }
