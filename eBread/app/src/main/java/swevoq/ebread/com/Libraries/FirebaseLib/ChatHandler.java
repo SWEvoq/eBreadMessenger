@@ -63,7 +63,7 @@ public class ChatHandler {
         setLastMessage(database,chatId,ref.getKey());
     }
 
-    public void setLastMessage(FirebaseDatabase database, String chatId, String messageId){
+    private void setLastMessage(FirebaseDatabase database, String chatId, String messageId){
         database.getReference("chats").child(chatId).child("lastMessage").setValue(messageId);
     }
 

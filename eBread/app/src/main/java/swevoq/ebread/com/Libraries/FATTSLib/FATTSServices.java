@@ -1,15 +1,9 @@
 package swevoq.ebread.com.Libraries.FATTSLib;
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Environment;
-import android.speech.tts.Voice;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,18 +11,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
+import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
+import swevoq.ebread.com.Chat.Model.Settings.TextSettings;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Libraries.FirebaseLib.FirebaseAccessPoint;
 
@@ -47,6 +42,14 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
         this.message = message;
     }
 
+    public void performTestAudioRequest(VoiceSettings voiceSettings){
+        ((TextMessage)message).setId("test");
+        ((TextMessage)message).setText("Benvenuto nel mondo della sintesi vocale.");
+        String url = buildAudioRequestUrl(voiceSettings);
+        FATTSRequest request = new FATTSRequest(Request.Method.GET,url,FATTSServices.this,FATTSServices.this,null);
+        requestQueue.add(request);
+    }
+
     public void performAudioRequest(){
         String url = buildAudioRequestUrl(new FirebaseAccessPoint().getVoiceSettings(textView.getContext()));
         FATTSRequest request = new FATTSRequest(Request.Method.GET,url,FATTSServices.this,FATTSServices.this,null);
@@ -57,13 +60,16 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
         String[] temp =   message.getText().split(" ");
         String textToRead ="";
         for(int i=0;i<temp.length;i++)
-            textToRead+=temp[i]+"+";
+            try {
+                textToRead+= URLEncoder.encode(temp[i],"UTF-8")+"+";
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         FirebaseAccessPoint firebase = new FirebaseAccessPoint();
         String voice = firebase.getUserVoice(textView.getContext(),((User)message.getUser()).getUsername());
-
         return "http://fic2fatts.tts.mivoq.it/say?input[type]=TEXT"+
                 "&input[locale]="+voiceSettings.getVoiceLanguage()+
-                "&input[content]="+textToRead+"."+
+                "&input[content]="+textToRead+
                 "&output[type]=AUDIO&output[format]=WAVE_FILE"+
                 "&voice[name]="+voice+
                 "&utterance[effects]=[{Rate:"+voiceSettings.getVoiceRate()+"}]";
@@ -79,8 +85,8 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
                 File audioFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId()+".wav");
                 File syncDataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId() + ".txt");
                 if(audioFile.exists() && syncDataFile.exists()) {
-                    MediaPlayer player = MediaPlayer.create(textView.getContext(), Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId() + ".wav"));
-                    player.start();
+                    FATTSPlayer player = new FATTSPlayer(textView.getContext());
+                    player.playSyncAudio(audioFile,syncDataFile,textView);
                 }
             }
         }, new Response.ErrorListener() {
@@ -96,10 +102,13 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
         String[] temp =   message.getText().split(" ");
         String textToRead ="";
         for(int i=0;i<temp.length;i++)
-            textToRead+=temp[i]+"+";
+            try {
+                textToRead+= URLEncoder.encode(temp[i],"UTF-8")+"+";
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         FirebaseAccessPoint firebase = new FirebaseAccessPoint();
         String voice = firebase.getUserVoice(textView.getContext(),((User)message.getUser()).getUsername());
-
         return "http://fic2fatts.tts.mivoq.it/say?input[type]=TEXT"+
                 "&input[locale]="+voiceSettings.getVoiceLanguage()+
                 "&input[content]="+textToRead+
@@ -111,7 +120,6 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
 
     @Override
     public void onResponse(byte[] response) {
-        Log.d("MyApp","Ho ricevuto l'audio");
         if(response!=null) {
             saveAudioToDevice(response);
         }
@@ -148,14 +156,14 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
     }
     @Override
     public void onErrorResponse(VolleyError error) {
-        Log.d("MYApp","Errore nella richiesta");
         File audioFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId()+".wav");
         File syncDataFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId() + ".txt");
         if(audioFile.exists() && syncDataFile.exists()){
             // Chiamo media player con file locali
+            FATTSPlayer player = new FATTSPlayer(textView.getContext());
+            player.playSyncAudio(audioFile,syncDataFile,textView);
         }else{
             Toast.makeText(textView.getContext(),"Audio non presente in memoria & Server Mivoq non raggiungibili",Toast.LENGTH_SHORT).show();
         }
-        //Errore con la richiesta dell'audio : provo a vedere se ho l'audio cachato altrimenti stampo errore a video.
     }
 }

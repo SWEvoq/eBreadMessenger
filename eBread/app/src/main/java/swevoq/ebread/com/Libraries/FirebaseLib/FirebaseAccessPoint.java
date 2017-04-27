@@ -151,4 +151,8 @@ public class FirebaseAccessPoint {
     public String getUserVoice(Context context,String id) {
         return database.getUserVoice(context,id);
     }
+
+    public void enableFirebaseCache() {
+        database.enableFirebaseCache();
+    }
 }

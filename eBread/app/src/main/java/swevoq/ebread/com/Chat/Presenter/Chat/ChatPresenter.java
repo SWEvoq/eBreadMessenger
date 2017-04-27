@@ -55,7 +55,7 @@ public class ChatPresenter {
         text.setTextColor(textSettings.getColorByName(textSettings.getTextColor()));
         bubble.setBackgroundColor(textSettings.getColorByName(textSettings.getBubbleColor()));
         text.setTextSize(textSettings.getFontSize());
-        text.setTextScaleX(textSettings.getFontSpacing());
+        //text.setTextScaleX(textSettings.getFontSpacing()); API 21 or less
         //text.setLetterSpacing(textSettings.getFontSpacing());// API 21 or greater
         if(!textSettings.getTextFont().equals("Roboto")) {
             Typeface font = Typeface.createFromAsset(bubble.getContext().getAssets(), "fonts/" + textSettings.getTextFont() + ".ttf");

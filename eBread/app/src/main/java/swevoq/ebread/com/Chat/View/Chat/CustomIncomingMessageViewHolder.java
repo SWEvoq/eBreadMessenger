@@ -33,8 +33,8 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
         text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FATTSServices servece = new FATTSServices(text,message);
-                servece.performAudioRequest();
+                FATTSServices service = new FATTSServices(text,message);
+                service.performAudioRequest();
             }
         });
 
