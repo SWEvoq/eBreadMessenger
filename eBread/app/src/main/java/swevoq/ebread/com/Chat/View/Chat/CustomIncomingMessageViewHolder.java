@@ -11,6 +11,7 @@ import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Presenter.Chat.ChatPresenter;
 import swevoq.ebread.com.Libraries.FATTSLib.FATTSServices;
+import swevoq.ebread.com.Libraries.FATTSLib.PlayerBread;
 
 /**
  * Created by Nicolae on 06/04/2017.

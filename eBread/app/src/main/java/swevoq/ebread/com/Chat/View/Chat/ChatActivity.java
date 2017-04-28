@@ -25,6 +25,7 @@ import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Chat.Presenter.Chat.ChatPresenter;
 import swevoq.ebread.com.Chat.View.Utility.ChatListActivity;
+import swevoq.ebread.com.Libraries.FATTSLib.PlayerBread;
 import swevoq.ebread.com.R;
 
 public class ChatActivity extends AppCompatActivity implements MessagesListAdapter.SelectionListener {
@@ -110,6 +111,13 @@ public class ChatActivity extends AppCompatActivity implements MessagesListAdapt
             adapter.unselectAllItems();
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PlayerBread.getInstance().killCurrentPlayer();
+    }
+
     private void initMessagesAdapter(){
         ImageLoader imageLoader = new ImageLoader() {
             @Override
