@@ -41,31 +41,31 @@ public class TextSettingsTest {
 
     @Test
     public void getFontSize() throws Exception {
-        String expected=" ";
-        String actual=settings.getFontSize();
+        int expected=16;
+        int actual=settings.getFontSize();
         assertEquals(expected,actual);
     }
 
     @Test
     public void setFontSize() throws Exception {
-        String expected="10";
+        int expected=10;
         settings.setFontSize(expected);
-        String actual=settings.getFontSize();
+        int actual=settings.getFontSize();
         assertEquals(expected,actual);
     }
 
     @Test
     public void getFontSpacing() throws Exception {
-        String expected=" ";
-        String actual=settings.getFontSpacing();
+        int expected=0;
+        int actual=settings.getFontSpacing();
         assertEquals(expected,actual);
     }
 
     @Test
     public void setFontSpacing() throws Exception {
-        String expected="11";
+        int expected=11;
         settings.setFontSpacing(expected);
-        String actual=settings.getFontSpacing();
+        int actual=settings.getFontSpacing();
         assertEquals(expected,actual);
     }
 
