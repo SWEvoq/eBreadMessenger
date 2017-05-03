@@ -51,8 +51,10 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> speedVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_speed_array, android.R.layout.simple_spinner_item);
         speedVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         speedVoiceSpinner.setAdapter(speedVoiceSpinnerAdapter);
+        if(usersVoiceSettings.getVoiceRate() == 2.0)
+            speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("molto lenta"));
         if(usersVoiceSettings.getVoiceRate() == 1.5)
-            speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("lento"));
+            speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("lenta"));
         else if(usersVoiceSettings.getVoiceRate() == 1.0)
             speedVoiceSpinner.setSelection(speedVoiceSpinnerAdapter.getPosition("normale"));
         else if(usersVoiceSettings.getVoiceRate() == 0.7)
@@ -85,6 +87,9 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         final Switch voiceSwitch = (Switch)findViewById(R.id.voiceSwitch);
         voiceSwitch.setChecked(usersVoiceSettings.isPlayVoice());
 
+        final Switch persistentHighlightSwitch = (Switch)findViewById(R.id.persistentHighlightSwitch);
+        persistentHighlightSwitch.setChecked(usersVoiceSettings.isPersistentHighlight());
+
         Button previewVoiceSettings = (Button)findViewById(R.id.previewVoiceSettings);
         previewVoiceSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +98,9 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                 VoiceSettings updatedVoiceSettings = new VoiceSettings();
                 updatedVoiceSettings.setVoiceName(defaultVoiceSpinner.getSelectedItem().toString());
                 updatedVoiceSettings.setVoiceLanguage(languageVoiceSpinner.getSelectedItem().toString());
-                if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
+                if(speedVoiceSpinner.getSelectedItem().toString().equals("molto lenta"))
+                    updatedVoiceSettings.setVoiceRate(2.0);
+                else if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
                     updatedVoiceSettings.setVoiceRate(1.5);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("normale"))
                     updatedVoiceSettings.setVoiceRate(1.0);
@@ -111,6 +118,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     updatedVoiceSettings.setWordHighlight(false);
                 updatedVoiceSettings.setShowHighlight(highlightSwitch.isChecked());
                 updatedVoiceSettings.setPlayVoice(voiceSwitch.isChecked());
+                updatedVoiceSettings.setPersistentHighlight(persistentHighlightSwitch.isChecked());
                 presenter.updateVoiceSettings(context,updatedVoiceSettings);
                 player.performTestAudioRequest(updatedVoiceSettings);
             }
@@ -122,7 +130,9 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                 VoiceSettings updatedVoiceSettings = new VoiceSettings();
                 updatedVoiceSettings.setVoiceName(defaultVoiceSpinner.getSelectedItem().toString());
                 updatedVoiceSettings.setVoiceLanguage(languageVoiceSpinner.getSelectedItem().toString());
-                if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
+                if(speedVoiceSpinner.getSelectedItem().toString().equals("molto lenta"))
+                    updatedVoiceSettings.setVoiceRate(2.0);
+                else if(speedVoiceSpinner.getSelectedItem().toString().equals("lenta"))
                     updatedVoiceSettings.setVoiceRate(1.5);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("normale"))
                     updatedVoiceSettings.setVoiceRate(1.0);
@@ -140,6 +150,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     updatedVoiceSettings.setWordHighlight(false);
                 updatedVoiceSettings.setShowHighlight(highlightSwitch.isChecked());
                 updatedVoiceSettings.setPlayVoice(voiceSwitch.isChecked());
+                updatedVoiceSettings.setPersistentHighlight(persistentHighlightSwitch.isChecked());
                 presenter.updateVoiceSettings(context,updatedVoiceSettings);
                 Toast.makeText(context,"Le impostazioni sono state aggiornate!",Toast.LENGTH_SHORT).show();
             }

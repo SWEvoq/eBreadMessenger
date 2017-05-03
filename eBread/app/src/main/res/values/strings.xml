@@ -23,17 +23,19 @@
     <string name="action_delete_friends">Cancella contatti</string>
     <string name="action_personal_settings">Impostazioni personali</string>
     <string name="action_voice_settings">Impostazioni voce di sintesi</string>
-    <string name="action_text_settings">Impostazioni testo</string>
+    <string name="action_text_settings">Impostazioni visualizzazione</string>
     <string name="action_delete_picture">Elimina Avatar</string>
     <string name="action_update_picture">Aggiorna Avatar</string>
+    <string name="action_logout">Esci</string>
     <string name="hint_enter_nickname">Inserisci nickname</string>
     <string name="hint_enter_name">Inserisci nome</string>
     <string name="hint_enter_surname">Inserisci cognome</string>
-    <string name="action_update_profile_settings">Aggiorna Informazioni</string>
-    <string name="action_update_voice_settings">Aggiorna Impostazioni</string>
+    <string name="action_update_profile_settings">Salva Informazioni</string>
+    <string name="action_update_voice_settings">Salva Impostazioni</string>
     <string name="action_preview_settings">Ascolta Esempio</string>
-    <string name="switch_highlight">Mostra evidenziazzione</string>
+    <string name="switch_highlight">Mostra evidenziazione</string>
     <string name="switch_voice">Riproduci voce</string>
+    <string name="switch_persistent_highlight">Evidenziazione persistente</string>
     <string-array name="voices_array">
         <item>istc-speaker_internazionale-hsmm</item>
         <item>istc-lucia-hsmm</item>
@@ -42,6 +44,7 @@
         <item>it</item>
     </string-array>
     <string-array name="voices_speed_array">
+        <item>molto lenta</item>
         <item>lenta</item>
         <item>normale</item>
         <item>veloce</item>

@@ -92,4 +92,11 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(RegistrationActivity.this, AuthActivity.class);
+        RegistrationActivity.this.startActivity(intent);
+        finish();
+    }
 }

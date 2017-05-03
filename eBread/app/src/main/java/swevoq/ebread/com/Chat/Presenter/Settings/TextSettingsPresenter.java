@@ -36,10 +36,10 @@ public class TextSettingsPresenter {
     public HashMap<String,Integer> getAvaiableTextSizing() {
         HashMap<String,Integer> result = new HashMap<>();
         result.put("Piccolo",14);
-        result.put("Medio",15);
-        result.put("Normale",16);
-        result.put("Grande",17);
-        result.put("Molto Grande",18);
+        result.put("Medio",16);
+        result.put("Normale",18);
+        result.put("Grande",20);
+        result.put("Molto Grande",22);
         return result;
     }
     public HashMap<String,Integer> getAvaiableTextSpacing() {

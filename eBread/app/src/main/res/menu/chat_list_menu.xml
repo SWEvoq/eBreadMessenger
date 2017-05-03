@@ -21,6 +21,9 @@
             <item
                 android:id="@+id/action_text_settings"
                 android:title="@string/action_text_settings"/>
+            <item
+                android:id="@+id/action_logout"
+                android:title="@string/action_logout"/>
         </menu>
     </item>>
 </menu>

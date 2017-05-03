@@ -24,6 +24,10 @@ public class RegistrationPresenter {
             if (password.length() < 8) {
                 return "Password inserita troppo corta. Min 8 caratteri !";
             }
+            if (!password.matches(".*\\d+.*"))
+                return "La password scelta deve contenere almeno un numero !";
+            if(!password.matches("^[a-zA-Z0-9]+$"))
+                return "La password selezionata non può contenere caratteri speciali !";
         }
         return "";
 

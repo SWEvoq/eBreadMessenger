@@ -12,6 +12,7 @@ public class VoiceSettings {
     private boolean wordHighlight;
     private boolean showHighlight;
     private boolean playVoice;
+    private boolean persistentHighlight;
 
     public VoiceSettings() {
         voiceName = "istc-speaker_internazionale-hsmm";
@@ -21,6 +22,7 @@ public class VoiceSettings {
         wordHighlight = true;
         showHighlight = true;
         playVoice = true;
+        persistentHighlight = false;
     }
 
     public String getVoiceName() {
@@ -79,6 +81,14 @@ public class VoiceSettings {
         this.playVoice = playVoice;
     }
 
+    public boolean isPersistentHighlight(){
+        return persistentHighlight;
+    }
+
+    public void setPersistentHighlight(boolean persistentHighlight){
+        this.persistentHighlight = persistentHighlight;
+    }
+
     @Override
     public String toString() {
         return "VoiceSettings{" +
@@ -89,6 +99,7 @@ public class VoiceSettings {
                 ", wordHighlight=" + wordHighlight +
                 ", showHighlight=" + showHighlight +
                 ", playVoice=" + playVoice +
+                ", persistentHighlight=" + persistentHighlight +
                 '}';
     }
 }

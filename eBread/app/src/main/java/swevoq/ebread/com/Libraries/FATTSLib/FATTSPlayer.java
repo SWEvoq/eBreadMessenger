@@ -62,18 +62,30 @@ public class FATTSPlayer {
     private void playHighlights(File syncFilePath,TextView view) {
         VoiceSettings voiceSettings = new FirebaseAccessPoint().getVoiceSettings(context);
         if(voiceSettings.isWordHighlight()) {
-            if(voiceSettings.isForwardHighlight())
-                playWordHighlights(syncFilePath, view, true);
+            if(!voiceSettings.isForwardHighlight())
+                if(voiceSettings.isPersistentHighlight())
+                    playWordHighlights(syncFilePath, view, true, true);
+                else
+                    playWordHighlights(syncFilePath, view, true, false);
             else
-                playWordHighlights(syncFilePath, view, false);
+                if(voiceSettings.isPersistentHighlight())
+                    playWordHighlights(syncFilePath, view, false, true);
+                else
+                    playWordHighlights(syncFilePath, view, false, false);
         }else {
-            if(voiceSettings.isForwardHighlight())
-                playLetterHighlights(syncFilePath, view, true);
+            if(!voiceSettings.isForwardHighlight())
+                if(voiceSettings.isPersistentHighlight())
+                    playLetterHighlights(syncFilePath, view, true, true);
+                else
+                    playLetterHighlights(syncFilePath, view, true, false);
             else
-                playLetterHighlights(syncFilePath, view, false);
+                if(voiceSettings.isPersistentHighlight())
+                    playLetterHighlights(syncFilePath, view, false, true);
+                else
+                    playLetterHighlights(syncFilePath, view, false, false);
         }
     }
-    private void playWordHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight){
+    private void playWordHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
         final ArrayList<Token> tokens = readTokens(syncFilePath);
         Handler handler = player.getHandler();
         player.setLastView(view);
@@ -86,7 +98,10 @@ public class FATTSPlayer {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    highlight(view,start,end);
+                    if(isPersistentHighlight)
+                        highlight(view,0,end);
+                    else
+                        highlight(view,start,end);
                 }
             }, (long)(offset));
             if(!isForwardHiglight)
@@ -99,7 +114,7 @@ public class FATTSPlayer {
             }
         }, (long)((offset)+500));
     }
-    private void playLetterHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight){
+    private void playLetterHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
         final ArrayList<Segment> segments = readSegments(syncFilePath);
         Handler handler = player.getHandler();
         player.setLastView(view);
@@ -111,7 +126,10 @@ public class FATTSPlayer {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    highlight(view,position,position+1);
+                    if(isPersistentHighlight)
+                        highlight(view,0,position+1);
+                    else
+                        highlight(view,position,position+1);
                 }
             }, (long)(offset));
             if(!isForwardHiglight)
