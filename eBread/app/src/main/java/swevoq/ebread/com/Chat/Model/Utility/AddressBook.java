@@ -47,14 +47,17 @@ public class AddressBook extends ArrayAdapter<String> {
         holder.itemName.setText(list.get(position));
         return view;
     }
+
     @Override
     public void remove(String string){
         list.remove(string);
         notifyDataSetChanged();
     }
+
     public void toggleSelection(int position){
         selectView(position,!selectedItemsIds.get(position));
     }
+
     public void selectView(int position, boolean value){
         if(value)
             selectedItemsIds.put(position,value);

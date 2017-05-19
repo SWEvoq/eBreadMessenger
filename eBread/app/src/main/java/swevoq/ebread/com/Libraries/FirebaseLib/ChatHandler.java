@@ -37,8 +37,6 @@ import swevoq.ebread.com.Chat.View.Utility.ChatListActivity;
 
 public class ChatHandler {
 
-    public ChatHandler(){}
-
     public void saveUser(FirebaseDatabase database, FirebaseUser id){
         User utente = new User(id.getUid(),id.getEmail(),"","","","https://cdn2.iconfinder.com/data/icons/rcons-user/32/male-circle-128.png");
         database.getReference("users").child(id.getUid()).setValue(utente);
@@ -65,7 +63,7 @@ public class ChatHandler {
         setLastMessage(database,chatId,ref.getKey());
     }
 
-    public void setLastMessage(FirebaseDatabase database, String chatId, String messageId){
+    private void setLastMessage(FirebaseDatabase database, String chatId, String messageId){
         database.getReference("chats").child(chatId).child("lastMessage").setValue(messageId);
     }
 
@@ -127,5 +125,9 @@ public class ChatHandler {
 
     public Query getUsers(FirebaseDatabase database) {
         return database.getReference("users");
+    }
+
+    public void updateAvatar(FirebaseDatabase database, String url) {
+        database.getReference("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("avatar").setValue(url);
     }
 }

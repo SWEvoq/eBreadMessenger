@@ -1,6 +1,7 @@
 package swevoq.ebread.com.Chat.View.Chat;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,6 +118,8 @@ public class ChatActivity extends AppCompatActivity implements MessagesListAdapt
             }
         };
         MessagesListAdapter.HoldersConfig holdersConfig = new MessagesListAdapter.HoldersConfig();
+        holdersConfig.setIncomingLayout(R.layout.item_custom_incoming_message);
+        holdersConfig.setOutcomingLayout(R.layout.item_custom_outcoming_message);
         holdersConfig.setIncomingHolder(CustomIncomingMessageViewHolder.class);
         holdersConfig.setOutcomingHolder(CustomOutcomingMessageViewHolder.class);
         adapter = new MessagesListAdapter<>(presenter.getLoggedUser().getUid(),holdersConfig,imageLoader);
@@ -174,7 +177,6 @@ public class ChatActivity extends AppCompatActivity implements MessagesListAdapt
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d("MyChat","Figlio è stato rimosso:"+dataSnapshot.child("message").getValue(String.class));
                 //dataSnapshot.getRef().removeEventListener(mListenerMap.get(dataSnapshot.getKey()));
             }
 

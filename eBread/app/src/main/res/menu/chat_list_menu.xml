@@ -10,5 +10,17 @@
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/action_settings"
-        app:showAsAction="always"/>
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_personal_settings"
+                android:title="@string/action_personal_settings"/>
+            <item
+                android:id="@+id/action_voice_settings"
+                android:title="@string/action_voice_settings"/>
+            <item
+                android:id="@+id/action_text_settings"
+                android:title="@string/action_text_settings"/>
+        </menu>
+    </item>>
 </menu>

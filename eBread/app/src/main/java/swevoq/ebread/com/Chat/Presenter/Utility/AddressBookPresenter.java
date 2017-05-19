@@ -47,4 +47,8 @@ public class AddressBookPresenter {
     public void setContactVoice(Context context,String userClicked, String voiceName) {
         firebase.setContactVoice(context,userClicked,voiceName);
     }
+
+    public String getUserVoice(Context context, String id) {
+        return firebase.getUserVoice(context,id);
+    }
 }

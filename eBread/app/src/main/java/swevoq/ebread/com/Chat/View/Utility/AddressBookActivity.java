@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,6 +49,11 @@ public class AddressBookActivity extends AppCompatActivity {
         presenter = new AddressBookPresenter();
         context = this;
         abState = getIntent().getExtras().getBoolean("compState");
+        ActionBar actionBar = getSupportActionBar();
+        if(abState)
+            actionBar.setTitle("Seleziona contatti");
+        else
+            actionBar.setTitle("Rubrica");
         //Lettura rubrica
         final List<String> list = presenter.getFriends(context);
         adapter = new AddressBook(this,R.layout.custom_textview,list);
@@ -103,7 +109,7 @@ public class AddressBookActivity extends AppCompatActivity {
                                     alertDialogBuilder.setView(promptView);
 
                                     final TextView profileInfo = (TextView) promptView.findViewById(R.id.profileInfo);
-                                    String details = userData.getRealName() + " " + userData.getSurname() + "\n" + userData.getUsername();
+                                    String details = userData.getRealName() + " " + userData.getSurname() + "\n" + userData.getUsername() + "\n" + "@" + userData.getNickname();
                                     profileInfo.setText(details);
                                     final ImageView profileImg = (ImageView) promptView.findViewById(R.id.profileImg);
                                     Picasso.with(context).load(userData.getAvatar()).resize(400,400).into(profileImg);
@@ -111,6 +117,7 @@ public class AddressBookActivity extends AppCompatActivity {
                                     final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.voices_array, android.R.layout.simple_spinner_item);
                                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     voiceSpinner.setAdapter(arrayAdapter);
+                                    voiceSpinner.setSelection(arrayAdapter.getPosition(presenter.getUserVoice(context,userData.getUsername())));
 
                                     alertDialogBuilder.setNegativeButton("Blocca contatto", new DialogInterface.OnClickListener() {
                                         @Override

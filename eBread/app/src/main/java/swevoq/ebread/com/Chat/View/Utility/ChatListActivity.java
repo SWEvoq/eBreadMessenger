@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -29,6 +31,9 @@ import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Chat.Presenter.Utility.ChatListPresenter;
 import swevoq.ebread.com.Chat.View.Chat.ChatActivity;
+import swevoq.ebread.com.Chat.View.Settings.ProfileSettingsActivity;
+import swevoq.ebread.com.Chat.View.Settings.TextSettingsActivity;
+import swevoq.ebread.com.Chat.View.Settings.VoiceSettingsActivity;
 import swevoq.ebread.com.R;
 
 public class ChatListActivity extends AppCompatActivity {
@@ -41,6 +46,8 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         context = this;
+        presenter = new ChatListPresenter();
+        presenter.enableFirebaseCache();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.newchat_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +58,6 @@ public class ChatListActivity extends AppCompatActivity {
                 finish();
             }
         });
-        presenter = new ChatListPresenter();
         final DialogsList dialogsListView = (DialogsList) findViewById(R.id.dialogsList);
         ImageLoader imageLoader = new ImageLoader() {
             @Override
@@ -179,13 +185,26 @@ public class ChatListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_addressbook:
                 // apro rubrica
-                Intent intent = new Intent(ChatListActivity.this, AddressBookActivity.class);
-                intent.putExtra("compState",false);
-                ChatListActivity.this.startActivity(intent);
+                Intent addressbookIntent = new Intent(ChatListActivity.this, AddressBookActivity.class);
+                addressbookIntent.putExtra("compState",false);
+                ChatListActivity.this.startActivity(addressbookIntent);
                 finish();
                 return true;
-            case R.id.action_settings:
-                // apro impostazioni
+            case R.id.action_personal_settings:
+                //apro impostazioni personali
+                Intent personalsettingsIntent = new Intent(ChatListActivity.this, ProfileSettingsActivity.class);
+                ChatListActivity.this.startActivity(personalsettingsIntent);
+                finish();
+                return true;
+            case R.id.action_voice_settings:
+                Intent voicesettingsIntent = new Intent(ChatListActivity.this, VoiceSettingsActivity.class);
+                ChatListActivity.this.startActivity(voicesettingsIntent);
+                finish();
+                return true;
+            case R.id.action_text_settings:
+                Intent textsettingsIntent = new Intent(ChatListActivity.this, TextSettingsActivity.class);
+                ChatListActivity.this.startActivity(textsettingsIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

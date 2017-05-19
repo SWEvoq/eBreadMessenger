@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="swevoq.ebread.com">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,6 +32,15 @@
             android:theme="@style/InsideTheme" />
         <activity
             android:name=".Chat.View.Utility.AddressBookActivity"
+            android:theme="@style/InsideTheme" />
+        <activity
+            android:name=".Chat.View.Settings.ProfileSettingsActivity"
+            android:theme="@style/InsideTheme" />
+        <activity
+            android:name=".Chat.View.Settings.VoiceSettingsActivity"
+            android:theme="@style/InsideTheme" />
+        <activity
+            android:name=".Chat.View.Settings.TextSettingsActivity"
             android:theme="@style/InsideTheme" />
     </application>
 

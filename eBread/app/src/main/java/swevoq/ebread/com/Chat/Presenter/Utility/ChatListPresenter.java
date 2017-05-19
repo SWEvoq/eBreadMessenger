@@ -47,4 +47,8 @@ public class ChatListPresenter {
     public void deleteChat(Context context, String id) {
         firebase.deleteChat(context,id);
     }
+
+    public void enableFirebaseCache() {
+        firebase.enableFirebaseCache();
+    }
 }
