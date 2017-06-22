@@ -30,7 +30,7 @@ public class TextSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text_settings);
         presenter = new TextSettingsPresenter();
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Impostazioni testo");
+        actionBar.setTitle("Impostazioni visualizzazione");
         context = this;
 
         final HashMap<String,Integer> availableColors = presenter.getAvaiableColors();
@@ -95,13 +95,13 @@ public class TextSettingsActivity extends AppCompatActivity {
         fontSizeSpinner.setAdapter(fontSizeSpinnerAdapter);
         if(usersTextSettings.getFontSize()==14)
             fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Piccolo"));
-        else if(usersTextSettings.getFontSize()==15)
-            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Medio"));
         else if(usersTextSettings.getFontSize()==16)
+            fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Medio"));
+        else if(usersTextSettings.getFontSize()==18)
             fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Normale"));
-        else if(usersTextSettings.getFontSize()==17)
+        else if(usersTextSettings.getFontSize()==20)
             fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Grande"));
-        if(usersTextSettings.getFontSize()==18)
+        if(usersTextSettings.getFontSize()==22)
             fontSizeSpinner.setSelection(fontSizeSpinnerAdapter.getPosition("Molto Grande"));
 
         final Spinner fontSpacingSpinner = (Spinner)findViewById(R.id.fontSpacingSpinner);

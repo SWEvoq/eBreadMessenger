@@ -41,6 +41,7 @@ public class SettingsHandler {
                 result.setWordHighlight(voiceSettings.getBoolean("wordHighlight"));
                 result.setShowHighlight(voiceSettings.getBoolean("showHighlight"));
                 result.setPlayVoice(voiceSettings.getBoolean("playVoice"));
+                result.setPersistentHighlight(voiceSettings.getBoolean("persistentHighlight"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -59,6 +60,7 @@ public class SettingsHandler {
             newVoiceSettings.put("wordHighlight",voiceSettings.isWordHighlight());
             newVoiceSettings.put("showHighlight",voiceSettings.isShowHighlight());
             newVoiceSettings.put("playVoice",voiceSettings.isPlayVoice());
+            newVoiceSettings.put("persistentHighlight",voiceSettings.isPersistentHighlight());
             usersVoiceSettings.put(FirebaseAuth.getInstance().getCurrentUser().getUid(),newVoiceSettings);
         }catch (JSONException e){
             e.printStackTrace();

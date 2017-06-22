@@ -19,7 +19,7 @@ public class TextSettings {
     public TextSettings() {
         textColor = "Black";
         bubbleColor = "Yellow";
-        fontSize = 16;
+        fontSize = 18;
         fontSpacing = 0;
         textFont = "Roboto";
         highlightColor = "Light Blue";

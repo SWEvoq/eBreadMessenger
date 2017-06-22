@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -204,6 +206,12 @@ public class ChatListActivity extends AppCompatActivity {
             case R.id.action_text_settings:
                 Intent textsettingsIntent = new Intent(ChatListActivity.this, TextSettingsActivity.class);
                 ChatListActivity.this.startActivity(textsettingsIntent);
+                finish();
+                return true;
+            case R.id.action_logout:
+                Intent authIntent = new Intent(ChatListActivity.this, AuthActivity.class);
+                ChatListActivity.this.startActivity(authIntent);
+                FirebaseAuth.getInstance().signOut();
                 finish();
                 return true;
             default:

@@ -1,6 +1,7 @@
 package swevoq.ebread.com.Chat.View.Utility;
 
 import swevoq.ebread.com.Chat.Presenter.Utility.PasswordRecoveryPresenter;
+import swevoq.ebread.com.Chat.View.Settings.VoiceSettingsActivity;
 import swevoq.ebread.com.R;
 
 import android.content.Intent;
@@ -64,5 +65,11 @@ public class PasswordRecoveryActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(PasswordRecoveryActivity.this, AuthActivity.class);
+        PasswordRecoveryActivity.this.startActivity(intent);
+        finish();
     }
 }
