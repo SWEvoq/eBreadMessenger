@@ -2,6 +2,7 @@ package swevoq.ebread.com.Libraries.FATTSLib;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
