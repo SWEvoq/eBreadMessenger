@@ -131,21 +131,22 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     JSONObject langs=new JSONObject(langsJson);
                     JSONArray langArray = langs.getJSONArray("locales");
 
-                    String currentVoice=defaultVoiceSpinner.getSelectedItem().toString();
-                    for(int i=0; i<voiceArray.length(); i++){
-                        JSONObject v=voiceArray.getJSONObject(i);
-                        if(currentVoice==v.getString("id")){
-                            JSONArray l=v.getJSONArray("locales");
-                            JSONObject a=l.getJSONObject(0);
-                            String ll=a.toString();
-                            for (int j=0; j<langArray.length(); j++) {
-                                if (ll == langArray.getString(j)) {
+                    position=defaultVoiceSpinner.getSelectedItemPosition();
+                    String currentVoice=defaultVoiceSpinner.getItemAtPosition(position).toString();
+                    for(int i=0; i<voiceArray.length(); i++) {
+                        JSONObject v = voiceArray.getJSONObject(i);
+                        String voice = v.getString("id");
+                        if (currentVoice.equals(voice)) {
+                            JSONArray a = v.getJSONArray("locales");
+                            String ll = a.getString(0);
+                            //Toast.makeText(context,ll,Toast.LENGTH_SHORT).show();
+                            for (int j = 0; j < langArray.length(); j++) {
+                                if (ll.equals(langArray.getString(j))) {
                                     languageVoiceSpinner.setSelection(j);
                                 }
                             }
                         }
                     }
-
                 }catch(Exception e){e.printStackTrace();}
             }
 
