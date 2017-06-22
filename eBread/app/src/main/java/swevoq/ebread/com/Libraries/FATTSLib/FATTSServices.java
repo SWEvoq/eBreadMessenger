@@ -2,6 +2,7 @@ package swevoq.ebread.com.Libraries.FATTSLib;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -96,13 +97,17 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
 
     private String buildAudioRequestUrl(VoiceSettings voiceSettings) {
         String[] temp =   message.getText().split(" ");
+        temp[temp.length-1]+=adjustStringEnding(temp[temp.length-1]);
         String textToRead ="";
         for(int i=0;i<temp.length;i++)
             try {
-                textToRead+= URLEncoder.encode(temp[i],"UTF-8")+"+";
+                textToRead+= URLEncoder.encode(temp[i],"UTF-8");
+                if(!(i==temp.length-1))
+                    textToRead+="+";
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
+            Log.d("MyApp",textToRead);
         FirebaseAccessPoint firebase = new FirebaseAccessPoint();
         String voice = firebase.getUserVoice(textView.getContext(),((User)message.getUser()).getUsername());
         return "http://fic2fatts.tts.mivoq.it/say?input[type]=TEXT"+
@@ -138,10 +143,13 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
 
     private String buildSyncRequestUrl(VoiceSettings voiceSettings) {
         String[] temp =   message.getText().split(" ");
+        temp[temp.length-1]+=adjustStringEnding(temp[temp.length-1]);
         String textToRead ="";
         for(int i=0;i<temp.length;i++)
             try {
-                textToRead+= URLEncoder.encode(temp[i],"UTF-8")+"+";
+                textToRead+= URLEncoder.encode(temp[i],"UTF-8");
+                if(!(i==temp.length-1))
+                    textToRead+="+";
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -155,7 +163,13 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
                 "&utterance[effects]=[{Rate:"+voiceSettings.getVoiceRate()+"}]";
     }
 
-
+    private String adjustStringEnding(String text){
+        String lastChar = text.charAt(text.length()-1)+"";
+        if( !(lastChar.equals("?")) && !(lastChar.equals("!")) && !(lastChar.equals(".")))
+            return ".";
+        else
+            return "";
+    }
     @Override
     public void onResponse(byte[] response) {
         if(response!=null) {

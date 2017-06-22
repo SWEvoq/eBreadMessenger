@@ -1,13 +1,13 @@
 package swevoq.ebread.com.Libraries.FATTSLib;
 
 import android.content.Context;
-import android.graphics.Color;
+
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -18,10 +18,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Handler;
 
 import swevoq.ebread.com.Chat.Model.Settings.TextSettings;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
@@ -32,14 +29,15 @@ import swevoq.ebread.com.Libraries.FirebaseLib.FirebaseAccessPoint;
  */
 
 public class FATTSPlayer {
-    private MediaPlayer player;
     private Context context;
+    private PlayerBread player;
     public FATTSPlayer(Context context){
+        player = PlayerBread.getInstance();
         this.context = context;
-        player = PlayerBread.getInstance().getPlayer();
     }
 
     public void playSyncAudio(File audioFilePath, File syncFilePath, TextView view){
+        player.killCurrentPlayer();
         VoiceSettings voiceSettings = new FirebaseAccessPoint().getVoiceSettings(context);
         if(!voiceSettings.isShowHighlight() && !voiceSettings.isPlayVoice())
             return;
@@ -57,28 +55,40 @@ public class FATTSPlayer {
     }
 
     private void playAudio(File filePath){
-        player.reset();
-        player = MediaPlayer.create(context,Uri.parse(filePath.toURI().toString()));
-        player.start();
+        player.setPlayer(MediaPlayer.create(context,Uri.parse(filePath.toURI().toString())));
+        player.getPlayer().start();
     }
 
     private void playHighlights(File syncFilePath,TextView view) {
         VoiceSettings voiceSettings = new FirebaseAccessPoint().getVoiceSettings(context);
         if(voiceSettings.isWordHighlight()) {
-            if(voiceSettings.isForwardHighlight())
-                playWordHighlights(syncFilePath, view, true);
+            if(!voiceSettings.isForwardHighlight())
+                if(voiceSettings.isPersistentHighlight())
+                    playWordHighlights(syncFilePath, view, true, true);
+                else
+                    playWordHighlights(syncFilePath, view, true, false);
             else
-                playWordHighlights(syncFilePath, view, false);
+                if(voiceSettings.isPersistentHighlight())
+                    playWordHighlights(syncFilePath, view, false, true);
+                else
+                    playWordHighlights(syncFilePath, view, false, false);
         }else {
-            if(voiceSettings.isForwardHighlight())
-                playLetterHighlights(syncFilePath, view, true);
+            if(!voiceSettings.isForwardHighlight())
+                if(voiceSettings.isPersistentHighlight())
+                    playLetterHighlights(syncFilePath, view, true, true);
+                else
+                    playLetterHighlights(syncFilePath, view, true, false);
             else
-                playLetterHighlights(syncFilePath, view, false);
+                if(voiceSettings.isPersistentHighlight())
+                    playLetterHighlights(syncFilePath, view, false, true);
+                else
+                    playLetterHighlights(syncFilePath, view, false, false);
         }
     }
-    private void playWordHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight){
+    private void playWordHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
         final ArrayList<Token> tokens = readTokens(syncFilePath);
-        android.os.Handler handler = new android.os.Handler();
+        Handler handler = player.getHandler();
+        player.setLastView(view);
         double offset = 0 ;
         for (int i = 0; i<tokens.size() ;i++) {
             if(isForwardHiglight)
@@ -88,7 +98,10 @@ public class FATTSPlayer {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    highlight(view,start,end);
+                    if(isPersistentHighlight)
+                        highlight(view,0,end);
+                    else
+                        highlight(view,start,end);
                 }
             }, (long)(offset));
             if(!isForwardHiglight)
@@ -101,19 +114,22 @@ public class FATTSPlayer {
             }
         }, (long)((offset)+500));
     }
-    private void playLetterHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight){
+    private void playLetterHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
         final ArrayList<Segment> segments = readSegments(syncFilePath);
-        android.os.Handler handler = new android.os.Handler();
+        Handler handler = player.getHandler();
+        player.setLastView(view);
         double offset = 0 ;
         for (int i = 0; i<segments.size() ;i++) {
             if(isForwardHiglight)
                 offset=segments.get(i).getEnd()*1000;
             final int position = i;
-            Log.d("MyApp","Termine lettera:"+offset);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    highlight(view,position,position+1);
+                    if(isPersistentHighlight)
+                        highlight(view,0,position+1);
+                    else
+                        highlight(view,position,position+1);
                 }
             }, (long)(offset));
             if(!isForwardHiglight)

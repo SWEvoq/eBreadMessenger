@@ -150,7 +150,9 @@ public class AddressBookActivity extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Toast.makeText(context,"Tieni premuto per selezionare i partecipanti della chat!",Toast.LENGTH_SHORT).show();
+                    ArrayList<String> ids = new ArrayList<String>();
+                    ids.add(((TextView)view).getText().toString());
+                    presenter.createChat(context,ids);
                 }
             }
         });
