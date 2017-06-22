@@ -23,12 +23,13 @@
                 android:id="@+id/firstSeparator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="10pt"
-                android:paddingBottom="10pt"
-                android:text="Voce di default"
                 android:gravity="center_horizontal"
+                android:paddingBottom="10pt"
+                android:paddingTop="10pt"
+                android:text="Voce di default"
                 android:textColor="@color/black"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

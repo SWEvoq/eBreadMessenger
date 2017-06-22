@@ -1,5 +1,6 @@
 package swevoq.ebread.com.Chat.View.Settings;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -24,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
@@ -45,7 +48,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         actionBar.setTitle("Impostazioni voce di sintesi");
         presenter = new VoiceSettingsPresenter();
         VoiceSettings usersVoiceSettings = presenter.getVoiceSettings(this);
-        FATTSServices service= new FATTSServices(this);
+        final FATTSServices service= new FATTSServices(this);
 
         final Spinner defaultVoiceSpinner = (Spinner)findViewById(R.id.defaultVoiceSpinner);
         String[] voiceList;
@@ -53,7 +56,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         //Prova a leggere le voci disponibili da JSON. In caso di errori, legge una lista predefinita.
         try{
             //Popolo un nuovo file JSON
-            service.getVoices();
+            service.getVoices(usersVoiceSettings.getVoiceLanguage());
             //Leggo il file JSON
             InputStream input = new FileInputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/voices.json");
             int size=input.available();
@@ -108,7 +111,50 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
         languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
 
-        defaultVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        languageVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                position = languageVoiceSpinner.getSelectedItemPosition();
+                String currentLang = languageVoiceSpinner.getItemAtPosition(position).toString();
+                service.getVoices(currentLang);
+                try {
+                    String[] vList;
+
+                    InputStream input = new FileInputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/voices.json");
+                    int size = input.available();
+                    byte[] buffer = new byte[size];
+                    input.read(buffer);
+                    input.close();
+                    String voicesJson = new String(buffer, "UTF-8");
+                    JSONObject voices = new JSONObject(voicesJson);
+
+                    JSONArray voiceArray = voices.getJSONArray("voices");
+                    vList = new String[voiceArray.length()];
+                    for (int i = 0; i < voiceArray.length(); i++) {
+                        JSONObject v = voiceArray.getJSONObject(i);
+                        vList[i] = v.getString("id");
+                    }
+
+                    ArrayAdapter<CharSequence> repopulateAdapter = new ArrayAdapter<CharSequence>(defaultVoiceSpinner.getContext(), android.R.layout.simple_spinner_item, vList);
+                    repopulateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    repopulateAdapter.notifyDataSetChanged();
+                    defaultVoiceSpinner.setAdapter(repopulateAdapter);
+                    defaultVoiceSpinner.setSelection(0);
+                }catch(Exception e){
+                    ArrayAdapter<CharSequence> repopulateAdapter;
+                    repopulateAdapter = android.widget.ArrayAdapter.createFromResource(defaultVoiceSpinner.getContext(), R.array.voices_array, android.R.layout.simple_spinner_item);
+                    repopulateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    defaultVoiceSpinner.setAdapter(repopulateAdapter);
+                    defaultVoiceSpinner.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+
+        /*defaultVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try{
@@ -152,7 +198,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        });*/
 
         final Spinner speedVoiceSpinner = (Spinner)findViewById(R.id.speedVoiceSpinner);
         ArrayAdapter<CharSequence> speedVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_speed_array, android.R.layout.simple_spinner_item);

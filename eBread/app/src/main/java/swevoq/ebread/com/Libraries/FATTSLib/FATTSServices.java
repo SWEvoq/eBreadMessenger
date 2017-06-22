@@ -48,8 +48,8 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
     }
 
 
-    public void getVoices(){
-        String url="http://fic2fatts.tts.mivoq.it/info/voices/all";
+    public void getVoices(String locale){
+        String url="http://fic2fatts.tts.mivoq.it/info/voices/locale/"+locale;
         JsonObjectRequest voicesRequest=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
