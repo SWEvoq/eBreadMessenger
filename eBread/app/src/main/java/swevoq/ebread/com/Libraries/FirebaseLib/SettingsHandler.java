@@ -37,7 +37,7 @@ public class SettingsHandler {
                 result.setVoiceName(voiceSettings.getString("voiceName"));
                 result.setVoiceLanguage(voiceSettings.getString("voiceLanguage"));
                 result.setVoiceRate(voiceSettings.getDouble("voiceRate"));
-                result.setForwardHighlight(voiceSettings.getBoolean("forwardHighlight"));
+                result.setHighlightDelay(voiceSettings.getInt("highlightDelay"));
                 result.setWordHighlight(voiceSettings.getBoolean("wordHighlight"));
                 result.setShowHighlight(voiceSettings.getBoolean("showHighlight"));
                 result.setPlayVoice(voiceSettings.getBoolean("playVoice"));
@@ -56,7 +56,7 @@ public class SettingsHandler {
             newVoiceSettings.put("voiceName", voiceSettings.getVoiceName());
             newVoiceSettings.put("voiceLanguage", voiceSettings.getVoiceLanguage());
             newVoiceSettings.put("voiceRate",voiceSettings.getVoiceRate());
-            newVoiceSettings.put("forwardHighlight",voiceSettings.isForwardHighlight());
+            newVoiceSettings.put("highlightDelay",voiceSettings.getHighlightDelay());
             newVoiceSettings.put("wordHighlight",voiceSettings.isWordHighlight());
             newVoiceSettings.put("showHighlight",voiceSettings.isShowHighlight());
             newVoiceSettings.put("playVoice",voiceSettings.isPlayVoice());

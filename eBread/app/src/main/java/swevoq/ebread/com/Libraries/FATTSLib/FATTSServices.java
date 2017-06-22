@@ -1,7 +1,9 @@
 package swevoq.ebread.com.Libraries.FATTSLib;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -11,6 +13,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -20,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
@@ -36,6 +45,11 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
     private TextView textView;
     private Message message;
 
+    public FATTSServices (Context context){
+        requestQueue = Volley.newRequestQueue(context,new HurlStack());
+        textView = null;
+        message = null;
+    }
     public FATTSServices (TextView textView, Message message){
         requestQueue = Volley.newRequestQueue(textView.getContext(), new HurlStack());
         this.textView = textView;
@@ -77,6 +91,54 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
                 "&output[type]=AUDIO&output[format]=WAVE_FILE"+
                 "&voice[name]="+voice+
                 "&utterance[effects]=[{Rate:"+voiceSettings.getVoiceRate()+"}]";
+    }
+
+    public void getVoicesByLanguage(final ArrayAdapter<String> adapter, String language){
+        String url = "http://fic2fatts.tts.mivoq.it/info/voices/locale/"+language;
+        JsonObjectRequest voicesRequest = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    adapter.clear();
+                    JSONArray voices = response.getJSONArray("voices");
+                    adapter.clear();
+                    for(int i=0;i<voices.length();i++){
+                        adapter.add(voices.getJSONObject(i).getString("id"));
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Si è verificato un'errore con la richiesta dei tokenù
+            }
+        });
+        requestQueue.add(voicesRequest);
+    }
+    public void getLanguages(final ArrayAdapter<String> adapter){
+        String url = "http://fic2fatts.tts.mivoq.it/info/locales/all";
+        JsonObjectRequest languagesRequest = new JsonObjectRequest(Request.Method.GET,url,new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    adapter.clear();
+                    JSONArray languages = response.getJSONArray("locales");
+                    for(int i=0;i<languages.length();i++){
+                        adapter.add(languages.getString(i));
+                    }
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Si è verificato un'errore con la richiesta dei token
+            }
+        });
+        requestQueue.add(languagesRequest);
     }
 
     private void performSyncRequest(){

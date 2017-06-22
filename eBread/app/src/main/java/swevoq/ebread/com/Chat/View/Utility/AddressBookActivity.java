@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -33,6 +34,8 @@ import java.util.List;
 import swevoq.ebread.com.Chat.Model.Profile.User;
 import swevoq.ebread.com.Chat.Model.Utility.AddressBook;
 import swevoq.ebread.com.Chat.Presenter.Utility.AddressBookPresenter;
+import swevoq.ebread.com.Libraries.FATTSLib.FATTSServices;
+import swevoq.ebread.com.Libraries.FirebaseLib.FirebaseAccessPoint;
 import swevoq.ebread.com.R;
 
 public class AddressBookActivity extends AppCompatActivity {
@@ -102,7 +105,7 @@ public class AddressBookActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for(DataSnapshot user: dataSnapshot.getChildren()) {
                                 if(user.child("username").getValue(String.class).equals(userClicked)) {
-                                    User userData = user.getValue(User.class);
+                                    final User userData = user.getValue(User.class);
                                     LayoutInflater layoutInflater = LayoutInflater.from(AddressBookActivity.this);
                                     View promptView = layoutInflater.inflate(R.layout.viewuser_dialog, null);
                                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AddressBookActivity.this);
@@ -113,11 +116,22 @@ public class AddressBookActivity extends AppCompatActivity {
                                     profileInfo.setText(details);
                                     final ImageView profileImg = (ImageView) promptView.findViewById(R.id.profileImg);
                                     Picasso.with(context).load(userData.getAvatar()).resize(400,400).into(profileImg);
+
                                     final Spinner voiceSpinner = (Spinner) promptView.findViewById(R.id.voiceSpinner);
-                                    final ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(context, R.array.voices_array, android.R.layout.simple_spinner_item);
+                                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item);
+                                    new FATTSServices(context).getVoicesByLanguage(arrayAdapter,new FirebaseAccessPoint().getVoiceSettings(context).getVoiceLanguage());
                                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     voiceSpinner.setAdapter(arrayAdapter);
-                                    voiceSpinner.setSelection(arrayAdapter.getPosition(presenter.getUserVoice(context,userData.getUsername())));
+
+                                    voiceSpinner.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+                                        @Override
+                                        public void onChildViewAdded(View parent, View child) {
+                                            voiceSpinner.setSelection(arrayAdapter.getPosition(presenter.getUserVoice(context,userData.getUsername())));
+                                        }
+
+                                        @Override
+                                        public void onChildViewRemoved(View parent, View child) {}
+                                    });
 
                                     alertDialogBuilder.setNegativeButton("Blocca contatto", new DialogInterface.OnClickListener() {
                                         @Override

@@ -38,6 +38,5 @@ public class CustomIncomingMessageViewHolder extends MessagesListAdapter.Incomin
                 service.performAudioRequest();
             }
         });
-
     }
 }

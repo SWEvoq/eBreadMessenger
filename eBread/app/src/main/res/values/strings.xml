@@ -51,8 +51,17 @@
         <item>super veloce</item>
     </string-array>
     <string-array name="highlight_delay_type_array">
-        <item>in avanti</item>
-        <item>all\'indietro</item>
+        <item>-1000</item>
+        <item>-800</item>
+        <item>-600</item>
+        <item>-400</item>
+        <item>-200</item>
+        <item>0</item>
+        <item>200</item>
+        <item>400</item>
+        <item>600</item>
+        <item>800</item>
+        <item>1000</item>
     </string-array>
     <string-array name="highlight_type_array">
         <item>lettera</item>

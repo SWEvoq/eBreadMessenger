@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -25,27 +27,56 @@ import swevoq.ebread.com.R;
 public class VoiceSettingsActivity extends AppCompatActivity {
     private VoiceSettingsPresenter presenter;
     private Context context;
+    private FATTSServices fattsServices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fattsServices = new FATTSServices(this);
         setContentView(R.layout.activity_voice_settings);
         context = this;
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Impostazioni voce di sintesi");
         presenter = new VoiceSettingsPresenter();
-        VoiceSettings usersVoiceSettings = presenter.getVoiceSettings(this);
+        final VoiceSettings usersVoiceSettings = presenter.getVoiceSettings(this);
 
         final Spinner defaultVoiceSpinner = (Spinner)findViewById(R.id.defaultVoiceSpinner);
-        ArrayAdapter<CharSequence> voiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_array, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<String> voiceSpinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+        fattsServices.getVoicesByLanguage(voiceSpinnerAdapter,usersVoiceSettings.getVoiceLanguage());
         voiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         defaultVoiceSpinner.setAdapter(voiceSpinnerAdapter);
-        defaultVoiceSpinner.setSelection(voiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceName()));
 
+        defaultVoiceSpinner.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                defaultVoiceSpinner.setSelection(voiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceName()));
+            }
+            @Override
+            public void onChildViewRemoved(View parent, View child) {}
+        });
         final Spinner languageVoiceSpinner = (Spinner)findViewById(R.id.languageVoiceSpinner);
-        ArrayAdapter<CharSequence> languageVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_languages_array, android.R.layout.simple_spinner_item);
+        final ArrayAdapter<String> languageVoiceSpinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item);
+        fattsServices.getLanguages(languageVoiceSpinnerAdapter);
         languageVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
-        languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
+
+        languageVoiceSpinner.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+            @Override
+            public void onChildViewAdded(View parent, View child) {
+                languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
+            }
+            @Override
+            public void onChildViewRemoved(View parent, View child) {}
+        });
+
+        languageVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fattsServices.getVoicesByLanguage(voiceSpinnerAdapter,parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         final Spinner speedVoiceSpinner = (Spinner)findViewById(R.id.speedVoiceSpinner);
         ArrayAdapter<CharSequence> speedVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_speed_array, android.R.layout.simple_spinner_item);
@@ -67,11 +98,8 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> highlightDelayTypeSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.highlight_delay_type_array, android.R.layout.simple_spinner_item);
         highlightDelayTypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         highlightDelayTypeSpinner.setAdapter(highlightDelayTypeSpinnerAdapter);
-        if(usersVoiceSettings.isForwardHighlight())
-            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("in avanti"));
-        else
-            highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition("all\'indietro"));
-
+        highlightDelayTypeSpinner.setSelection(highlightDelayTypeSpinnerAdapter.getPosition(usersVoiceSettings.getHighlightDelay()+""));
+        Log.d("MyApp",usersVoiceSettings.getHighlightDelay()+"");
         final Spinner highlightTypeSpinner = (Spinner)findViewById(R.id.highlightTypeSpinner);
         ArrayAdapter<CharSequence> highlightTypeSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.highlight_type_array, android.R.layout.simple_spinner_item);
         highlightTypeSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -108,10 +136,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     updatedVoiceSettings.setVoiceRate(0.7);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("super veloce"))
                     updatedVoiceSettings.setVoiceRate(0.4);
-                if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("in avanti"))
-                    updatedVoiceSettings.setForwardHighlight(true);
-                else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("all\'indietro"))
-                    updatedVoiceSettings.setForwardHighlight(false);
+                updatedVoiceSettings.setHighlightDelay(Integer.parseInt(highlightDelayTypeSpinner.getSelectedItem().toString()));
                 if(highlightTypeSpinner.getSelectedItem().toString().equals("parola"))
                     updatedVoiceSettings.setWordHighlight(true);
                 else if(highlightTypeSpinner.getSelectedItem().toString().equals("lettera"))
@@ -140,10 +165,7 @@ public class VoiceSettingsActivity extends AppCompatActivity {
                     updatedVoiceSettings.setVoiceRate(0.7);
                 else if(speedVoiceSpinner.getSelectedItem().toString().equals("super veloce"))
                     updatedVoiceSettings.setVoiceRate(0.4);
-                if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("in avanti"))
-                    updatedVoiceSettings.setForwardHighlight(true);
-                else if(highlightDelayTypeSpinner.getSelectedItem().toString().equals("all\'indietro"))
-                    updatedVoiceSettings.setForwardHighlight(false);
+                updatedVoiceSettings.setHighlightDelay(Integer.parseInt(highlightDelayTypeSpinner.getSelectedItem().toString()));
                 if(highlightTypeSpinner.getSelectedItem().toString().equals("parola"))
                     updatedVoiceSettings.setWordHighlight(true);
                 else if(highlightTypeSpinner.getSelectedItem().toString().equals("lettera"))

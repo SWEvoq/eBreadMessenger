@@ -8,7 +8,7 @@ public class VoiceSettings {
     private String voiceName;
     private String voiceLanguage;
     private double voiceRate;
-    private boolean forwardHighlight;
+    private int highlightDelay;
     private boolean wordHighlight;
     private boolean showHighlight;
     private boolean playVoice;
@@ -18,7 +18,7 @@ public class VoiceSettings {
         voiceName = "istc-speaker_internazionale-hsmm";
         voiceLanguage = "it";
         voiceRate = 1.0;
-        forwardHighlight = true;
+        highlightDelay = 0;
         wordHighlight = true;
         showHighlight = true;
         playVoice = true;
@@ -49,12 +49,12 @@ public class VoiceSettings {
         this.voiceRate = voiceRate;
     }
 
-    public boolean isForwardHighlight() {
-        return forwardHighlight;
+    public int getHighlightDelay() {
+        return highlightDelay;
     }
 
-    public void setForwardHighlight(boolean forwardHighlight) {
-        this.forwardHighlight = forwardHighlight;
+    public void setHighlightDelay(int highlightDelay) {
+        this.highlightDelay = highlightDelay;
     }
 
     public boolean isWordHighlight() {
@@ -95,7 +95,7 @@ public class VoiceSettings {
                 "voiceName='" + voiceName + '\'' +
                 ", voiceLanguage='" + voiceLanguage + '\'' +
                 ", voiceRate=" + voiceRate +
-                ", forwardHighlight=" + forwardHighlight +
+                ", highlightDelay=" + highlightDelay +
                 ", wordHighlight=" + wordHighlight +
                 ", showHighlight=" + showHighlight +
                 ", playVoice=" + playVoice +

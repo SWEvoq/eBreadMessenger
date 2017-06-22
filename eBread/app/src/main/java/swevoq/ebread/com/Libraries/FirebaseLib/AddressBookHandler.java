@@ -174,9 +174,12 @@ public class AddressBookHandler {
                 e.printStackTrace();
             }
         }
+        /*
         if(result.equals(""))
             return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceName();
         else
             return result;
+        */
+        return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceName();
     }
 }

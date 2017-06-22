@@ -44,14 +44,14 @@ public class FATTSPlayer {
         if(!voiceSettings.isShowHighlight() && voiceSettings.isPlayVoice())
             playAudio(audioFilePath);
         if(voiceSettings.isShowHighlight() && !voiceSettings.isPlayVoice())
-            playHighlights(syncFilePath,view);
+            playHighlights(audioFilePath,syncFilePath,view);
         if(voiceSettings.isShowHighlight() && voiceSettings.isPlayVoice())
             playAudioWithHighlights(audioFilePath,syncFilePath,view);
     }
 
     private void playAudioWithHighlights(File audioFilePath, File syncFilePath, TextView view) {
-        playAudio(audioFilePath);
-        playHighlights(syncFilePath,view);
+        //playAudio(audioFilePath);
+        playHighlights(audioFilePath,syncFilePath,view);
     }
 
     private void playAudio(File filePath){
@@ -59,40 +59,38 @@ public class FATTSPlayer {
         player.getPlayer().start();
     }
 
-    private void playHighlights(File syncFilePath,TextView view) {
+    private void playHighlights(File audioFilePath,File syncFilePath,TextView view) {
         VoiceSettings voiceSettings = new FirebaseAccessPoint().getVoiceSettings(context);
         if(voiceSettings.isWordHighlight()) {
-            if(!voiceSettings.isForwardHighlight())
-                if(voiceSettings.isPersistentHighlight())
-                    playWordHighlights(syncFilePath, view, true, true);
-                else
-                    playWordHighlights(syncFilePath, view, true, false);
+            if(voiceSettings.isPersistentHighlight())
+                playWordHighlights(audioFilePath,syncFilePath, view, voiceSettings.getHighlightDelay(), true);
             else
-                if(voiceSettings.isPersistentHighlight())
-                    playWordHighlights(syncFilePath, view, false, true);
-                else
-                    playWordHighlights(syncFilePath, view, false, false);
+                playWordHighlights(audioFilePath,syncFilePath, view, voiceSettings.getHighlightDelay(), false);
         }else {
-            if(!voiceSettings.isForwardHighlight())
-                if(voiceSettings.isPersistentHighlight())
-                    playLetterHighlights(syncFilePath, view, true, true);
-                else
-                    playLetterHighlights(syncFilePath, view, true, false);
+            if(voiceSettings.isPersistentHighlight())
+                playLetterHighlights(audioFilePath,syncFilePath, view, voiceSettings.getHighlightDelay(), true);
             else
-                if(voiceSettings.isPersistentHighlight())
-                    playLetterHighlights(syncFilePath, view, false, true);
-                else
-                    playLetterHighlights(syncFilePath, view, false, false);
+                playLetterHighlights(audioFilePath,syncFilePath, view, voiceSettings.getHighlightDelay(), false);
         }
     }
-    private void playWordHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
+    private void playWordHighlights(final File audioFilePath, File syncFilePath, final TextView view , int highlightDelay, final boolean isPersistentHighlight){
         final ArrayList<Token> tokens = readTokens(syncFilePath);
         Handler handler = player.getHandler();
         player.setLastView(view);
-        double offset = 0 ;
+        double offset;
+        if(highlightDelay<=0){
+            offset = 0;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    playAudio(audioFilePath);
+                }
+            },(long)(highlightDelay*(-1)));
+        }else{
+            offset = highlightDelay;
+            playAudio(audioFilePath);
+        }
         for (int i = 0; i<tokens.size() ;i++) {
-            if(isForwardHiglight)
-                offset=tokens.get(i).getEnd()*1000;
             final int start = tokens.get(i).getChar_start();
             final int end = tokens.get(i).getChar_end();
             handler.postDelayed(new Runnable() {
@@ -104,8 +102,9 @@ public class FATTSPlayer {
                         highlight(view,start,end);
                 }
             }, (long)(offset));
-            if(!isForwardHiglight)
-                offset=tokens.get(i).getEnd()*1000;
+            offset=tokens.get(i).getEnd()*1000;
+            if(highlightDelay>0)
+                offset+=highlightDelay;
         }
         handler.postDelayed(new Runnable() {
             @Override
@@ -114,14 +113,24 @@ public class FATTSPlayer {
             }
         }, (long)((offset)+500));
     }
-    private void playLetterHighlights(File syncFilePath, final TextView view , boolean isForwardHiglight, final boolean isPersistentHighlight){
+    private void playLetterHighlights(final File audioFilePath,File syncFilePath, final TextView view , int highlightDelay, final boolean isPersistentHighlight){
         final ArrayList<Segment> segments = readSegments(syncFilePath);
         Handler handler = player.getHandler();
         player.setLastView(view);
-        double offset = 0 ;
+        double offset;
+        if(highlightDelay<=0){
+            offset = 0;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    playAudio(audioFilePath);
+                }
+            },(long)(highlightDelay*(-1)));
+        }else{
+            offset = highlightDelay;
+            playAudio(audioFilePath);
+        }
         for (int i = 0; i<segments.size() ;i++) {
-            if(isForwardHiglight)
-                offset=segments.get(i).getEnd()*1000;
             final int position = i;
             handler.postDelayed(new Runnable() {
                 @Override
@@ -132,8 +141,9 @@ public class FATTSPlayer {
                         highlight(view,position,position+1);
                 }
             }, (long)(offset));
-            if(!isForwardHiglight)
-                offset=segments.get(i).getEnd()*1000;
+            offset=segments.get(i).getEnd()*1000;
+            if(highlightDelay>0)
+                offset+=highlightDelay;
         }
         handler.postDelayed(new Runnable() {
             @Override
