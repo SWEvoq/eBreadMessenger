@@ -14,8 +14,8 @@ public class VoiceSettings {
     private boolean playVoice;
 
     public VoiceSettings() {
-        voiceName = "istc-speaker_internazionale-hsmm";
-        voiceLanguage = "it";
+        voiceName = null;
+        voiceLanguage = null;
         voiceRate = 1.0;
         forwardHighlight = true;
         wordHighlight = true;

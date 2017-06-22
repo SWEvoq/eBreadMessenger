@@ -1,7 +1,7 @@
 package swevoq.ebread.com.Libraries.FATTSLib;
 
+import android.app.Activity;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -14,8 +14,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONObject;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +25,6 @@ import java.net.URLEncoder;
 import swevoq.ebread.com.Chat.Model.Chat.Message;
 import swevoq.ebread.com.Chat.Model.Chat.TextMessage;
 import swevoq.ebread.com.Chat.Model.Profile.User;
-import swevoq.ebread.com.Chat.Model.Settings.TextSettings;
 import swevoq.ebread.com.Chat.Model.Settings.VoiceSettings;
 import swevoq.ebread.com.Libraries.FirebaseLib.FirebaseAccessPoint;
 
@@ -36,10 +37,47 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
     private TextView textView;
     private Message message;
 
+    public FATTSServices (Activity activity){
+        requestQueue = Volley.newRequestQueue(activity.getApplicationContext());
+    }
+
     public FATTSServices (TextView textView, Message message){
         requestQueue = Volley.newRequestQueue(textView.getContext(), new HurlStack());
         this.textView = textView;
         this.message = message;
+    }
+
+
+    public void getVoices(){
+        String url="http://fic2fatts.tts.mivoq.it/info/voices/all";
+        JsonObjectRequest voicesRequest=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                saveVoices(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Si è verificato un'errore con la richiesta delle voci
+            }
+        });
+        requestQueue.add(voicesRequest);
+    }
+
+    public void getLanguages(){
+        String url= "http://fic2fatts.tts.mivoq.it/info/locales/all";
+        JsonObjectRequest langRequest=new JsonObjectRequest(Request.Method.GET, url, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                saveLanguages(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Si è verificato un'errore con la richiesta delle lingue
+            }
+        });
+        requestQueue.add(langRequest);
     }
 
     public void performTestAudioRequest(VoiceSettings voiceSettings){
@@ -154,6 +192,29 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
             e.printStackTrace();
         }
     }
+
+    private void saveVoices(JSONObject voices){
+        try{
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/voices.json");
+            FileOutputStream out=new FileOutputStream(file);
+            out.write(voices.toString().getBytes());
+            out.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void saveLanguages(JSONObject langs){
+        try{
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/langs.json");
+            FileOutputStream out=new FileOutputStream(file);
+            out.write(langs.toString().getBytes());
+            out.close();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onErrorResponse(VolleyError error) {
         File audioFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + message.getId()+".wav");
