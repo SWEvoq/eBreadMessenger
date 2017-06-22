@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -47,6 +48,8 @@ public class VoiceSettingsActivity extends AppCompatActivity {
         FATTSServices service= new FATTSServices(this);
 
         final Spinner defaultVoiceSpinner = (Spinner)findViewById(R.id.defaultVoiceSpinner);
+        String[] voiceList;
+        ArrayAdapter<CharSequence> voiceSpinnerAdapter;
         //Prova a leggere le voci disponibili da JSON. In caso di errori, legge una lista predefinita.
         try{
             //Popolo un nuovo file JSON
@@ -61,25 +64,23 @@ public class VoiceSettingsActivity extends AppCompatActivity {
             JSONObject voices=new JSONObject(voicesJson);
 
             JSONArray voiceArray = voices.getJSONArray("voices");
-            String[] voiceList= new String[voiceArray.length()];
+            voiceList= new String[voiceArray.length()];
             for(int i=0; i<voiceArray.length(); i++){
                 JSONObject v=voiceArray.getJSONObject(i);
                 voiceList[i]=v.getString("id");
             }
 
-            ArrayAdapter<CharSequence> voiceSpinnerAdapter= new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, voiceList);
-            voiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            defaultVoiceSpinner.setAdapter(voiceSpinnerAdapter);
-            defaultVoiceSpinner.setSelection(voiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceName()));
+            voiceSpinnerAdapter= new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, voiceList);
         } catch(Exception e){
-            ArrayAdapter<CharSequence> voiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_array, android.R.layout.simple_spinner_item);
-            voiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            defaultVoiceSpinner.setAdapter(voiceSpinnerAdapter);
-            defaultVoiceSpinner.setSelection(voiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceName()));
+            voiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_array, android.R.layout.simple_spinner_item);
         }
-
+        voiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        defaultVoiceSpinner.setAdapter(voiceSpinnerAdapter);
+        defaultVoiceSpinner.setSelection(voiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceName()));
 
         final Spinner languageVoiceSpinner = (Spinner)findViewById(R.id.languageVoiceSpinner);
+        String[] langList;
+        ArrayAdapter<CharSequence> languageVoiceSpinnerAdapter;
         //Come sopra per le voci, ma stavolta leggo le lingue
         try{
             //Popolo un nuovo file JSON
@@ -94,21 +95,64 @@ public class VoiceSettingsActivity extends AppCompatActivity {
             JSONObject langs=new JSONObject(langsJson);
 
             JSONArray langArray = langs.getJSONArray("locales");
-            String[] langList= new String[langArray.length()];
+            langList= new String[langArray.length()];
             for (int i=0; i<langArray.length(); i++) {
                 langList[i]=langArray.getString(i);
             }
 
-            ArrayAdapter<CharSequence> languageVoiceSpinnerAdapter= new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, langList);
-            languageVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
-            languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
+            languageVoiceSpinnerAdapter= new ArrayAdapter<CharSequence>(this, android.R.layout.simple_spinner_item, langList);
         } catch(Exception e){
-            ArrayAdapter<CharSequence> languageVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_languages_array, android.R.layout.simple_spinner_item);
-            languageVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
-            languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
+            languageVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_languages_array, android.R.layout.simple_spinner_item);
         }
+        languageVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
+        languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(usersVoiceSettings.getVoiceLanguage()));
+
+        defaultVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                try{
+                    //Metodo brutto fatto velocemente ma dovrebbe funzionare
+                    InputStream input = new FileInputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/voices.json");
+                    int size=input.available();
+                    byte[] buffer=new byte[size];
+                    input.read(buffer);
+                    input.close();
+                    String voicesJson = new String(buffer, "UTF-8");
+                    JSONObject voices=new JSONObject(voicesJson);
+                    JSONArray voiceArray = voices.getJSONArray("voices");
+
+                    input = new FileInputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/langs.json");
+                    size=input.available();
+                    buffer=new byte[size];
+                    input.read(buffer);
+                    input.close();
+                    String langsJson = new String(buffer, "UTF-8");
+                    JSONObject langs=new JSONObject(langsJson);
+                    JSONArray langArray = langs.getJSONArray("locales");
+
+                    position=defaultVoiceSpinner.getSelectedItemPosition();
+                    String currentVoice=defaultVoiceSpinner.getItemAtPosition(position).toString();
+                    for(int i=0; i<voiceArray.length(); i++) {
+                        JSONObject v = voiceArray.getJSONObject(i);
+                        String voice = v.getString("id");
+                        if (currentVoice.equals(voice)) {
+                            JSONArray a = v.getJSONArray("locales");
+                            String ll = a.getString(0);
+                            //Toast.makeText(context,ll,Toast.LENGTH_SHORT).show();
+                            for (int j = 0; j < langArray.length(); j++) {
+                                if (ll.equals(langArray.getString(j))) {
+                                    languageVoiceSpinner.setSelection(j);
+                                }
+                            }
+                        }
+                    }
+                }catch(Exception e){e.printStackTrace();}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         final Spinner speedVoiceSpinner = (Spinner)findViewById(R.id.speedVoiceSpinner);
         ArrayAdapter<CharSequence> speedVoiceSpinnerAdapter = android.widget.ArrayAdapter.createFromResource(this, R.array.voices_speed_array, android.R.layout.simple_spinner_item);
