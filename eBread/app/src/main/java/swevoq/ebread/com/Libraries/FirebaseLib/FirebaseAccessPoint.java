@@ -111,8 +111,8 @@ public class FirebaseAccessPoint {
         return database.getUsers();
     }
 
-    public void setContactVoice(Context context,String userClicked, String voiceName) {
-        database.setContactVoice(context,userClicked,voiceName);
+    public void setContactVoice(Context context,String userClicked, String voiceName, String voiceLang) {
+        database.setContactVoice(context,userClicked,voiceName,voiceLang);
     }
 
     public void updateUser(User dummy) {
@@ -150,6 +150,10 @@ public class FirebaseAccessPoint {
 
     public String getUserVoice(Context context,String id) {
         return database.getUserVoice(context,id);
+    }
+
+    public String getUserVoiceLang(Context context,String id){
+        return database.getUserVoiceLang(context,id);
     }
 
     public void enableFirebaseCache() {

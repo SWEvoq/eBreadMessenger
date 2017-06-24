@@ -94,8 +94,8 @@ public class FirebaseDatabaseAccessPoint {
         return chatHandler.getUsers(database);
     }
 
-    public void setContactVoice(Context context,String userClicked, String voiceName) {
-        addressbookHandler.setContactVoice(context,userClicked,voiceName);
+    public void setContactVoice(Context context,String userClicked, String voiceName, String voiceLang) {
+        addressbookHandler.setContactVoice(context,userClicked,voiceName,voiceLang);
     }
 
     public void updateUser(User dummy) {
@@ -130,5 +130,9 @@ public class FirebaseDatabaseAccessPoint {
     public void enableFirebaseCache() {
         DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference();
         scoresRef.keepSynced(true);
+    }
+
+    public String getUserVoiceLang(Context context, String id) {
+        return addressbookHandler.getUserVoiceLang(context,id);
     }
 }

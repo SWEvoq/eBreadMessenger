@@ -103,7 +103,7 @@ public class AddressBookActivity extends AppCompatActivity {
                     presenter.getUsers().addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for(DataSnapshot user: dataSnapshot.getChildren()) {
+                            for(final DataSnapshot user: dataSnapshot.getChildren()) {
                                 if(user.child("username").getValue(String.class).equals(userClicked)) {
                                     final User userData = user.getValue(User.class);
                                     LayoutInflater layoutInflater = LayoutInflater.from(AddressBookActivity.this);
@@ -112,14 +112,20 @@ public class AddressBookActivity extends AppCompatActivity {
                                     alertDialogBuilder.setView(promptView);
 
                                     final TextView profileInfo = (TextView) promptView.findViewById(R.id.profileInfo);
-                                    String details = userData.getRealName() + " " + userData.getSurname() + "\n" + userData.getUsername() + "\n" + "@" + userData.getNickname();
+                                    String details = "Nominativo: "+userData.getRealName() + " " + userData.getSurname() +
+                                                     "\n" + "Username: " + userData.getUsername() +
+                                                     "\n" + "@" + userData.getNickname() +
+                                                     "\n" + "Voce: " + presenter.getUserVoice(context,userData.getUsername()) +
+                                                     " Lingua: " + presenter.getUserVoiceLang(context,userData.getUsername());
                                     profileInfo.setText(details);
                                     final ImageView profileImg = (ImageView) promptView.findViewById(R.id.profileImg);
                                     Picasso.with(context).load(userData.getAvatar()).resize(400,400).into(profileImg);
 
+                                    final FATTSServices fattsServices = new FATTSServices(context);
+
                                     final Spinner voiceSpinner = (Spinner) promptView.findViewById(R.id.voiceSpinner);
                                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item);
-                                    new FATTSServices(context).getVoicesByLanguage(arrayAdapter,new FirebaseAccessPoint().getVoiceSettings(context).getVoiceLanguage());
+                                    fattsServices.getVoicesByLanguage(arrayAdapter,presenter.getUserVoiceLang(context,userData.getUsername()));
                                     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     voiceSpinner.setAdapter(arrayAdapter);
 
@@ -133,7 +139,32 @@ public class AddressBookActivity extends AppCompatActivity {
                                         public void onChildViewRemoved(View parent, View child) {}
                                     });
 
-                                    alertDialogBuilder.setNegativeButton("Blocca contatto", new DialogInterface.OnClickListener() {
+                                    final Spinner languageVoiceSpinner = (Spinner) promptView.findViewById(R.id.voiceLangSpinner);
+                                    final ArrayAdapter<String> languageVoiceSpinnerAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_spinner_item);
+                                    fattsServices.getLanguages(languageVoiceSpinnerAdapter);
+                                    languageVoiceSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    languageVoiceSpinner.setAdapter(languageVoiceSpinnerAdapter);
+
+                                    languageVoiceSpinner.setOnHierarchyChangeListener(new ViewGroup.OnHierarchyChangeListener() {
+                                        @Override
+                                        public void onChildViewAdded(View parent, View child) {
+                                            languageVoiceSpinner.setSelection(languageVoiceSpinnerAdapter.getPosition(presenter.getUserVoiceLang(context,userData.getUsername())));
+                                        }
+                                        @Override
+                                        public void onChildViewRemoved(View parent, View child) {}
+                                    });
+
+                                    languageVoiceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            fattsServices.getVoicesByLanguage(arrayAdapter,languageVoiceSpinner.getSelectedItem().toString());
+                                        }
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                        }
+                                    });
+
+                                    alertDialogBuilder.setNegativeButton("Blocca", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             ArrayList<String> toRemove = new ArrayList<String>();
@@ -143,15 +174,13 @@ public class AddressBookActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    alertDialogBuilder.setPositiveButton("Chiudi scheda", new DialogInterface.OnClickListener() {
+                                    alertDialogBuilder.setPositiveButton("Aggiorna", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            presenter.setContactVoice(context,userClicked,voiceSpinner.getSelectedItem().toString());
+                                            presenter.setContactVoice(context,userClicked,voiceSpinner.getSelectedItem().toString(),languageVoiceSpinner.getSelectedItem().toString());
                                             dialog.cancel();
                                         }
                                     });
-
-
                                     // create an alert dialog
                                     AlertDialog alert = alertDialogBuilder.create();
                                     alert.show();

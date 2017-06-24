@@ -85,8 +85,9 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
             Log.d("MyApp",textToRead);
         FirebaseAccessPoint firebase = new FirebaseAccessPoint();
         String voice = firebase.getUserVoice(textView.getContext(),((User)message.getUser()).getUsername());
+        String language = firebase.getUserVoiceLang(textView.getContext(),((User)message.getUser()).getUsername());
         return "http://fic2fatts.tts.mivoq.it/say?input[type]=TEXT"+
-                "&input[locale]="+voiceSettings.getVoiceLanguage()+
+                "&input[locale]="+language+
                 "&input[content]="+textToRead+
                 "&output[type]=AUDIO&output[format]=WAVE_FILE"+
                 "&voice[name]="+voice+
@@ -178,8 +179,9 @@ public class FATTSServices implements  Response.Listener<byte[]>, Response.Error
             }
         FirebaseAccessPoint firebase = new FirebaseAccessPoint();
         String voice = firebase.getUserVoice(textView.getContext(),((User)message.getUser()).getUsername());
+        String language = firebase.getUserVoiceLang(textView.getContext(),((User)message.getUser()).getUsername());
         return "http://fic2fatts.tts.mivoq.it/say?input[type]=TEXT"+
-                "&input[locale]="+voiceSettings.getVoiceLanguage()+
+                "&input[locale]="+language+
                 "&input[content]="+textToRead+
                 "&output[type]=LIPSYNC&output[format]=WAVE_FILE"+
                 "&voice[name]="+voice+

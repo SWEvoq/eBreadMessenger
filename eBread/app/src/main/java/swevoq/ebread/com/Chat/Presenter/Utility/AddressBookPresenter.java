@@ -44,11 +44,15 @@ public class AddressBookPresenter {
         return firebase.getUsers();
     }
 
-    public void setContactVoice(Context context,String userClicked, String voiceName) {
-        firebase.setContactVoice(context,userClicked,voiceName);
+    public void setContactVoice(Context context,String userClicked, String voiceName,String voiceLang) {
+        firebase.setContactVoice(context,userClicked,voiceName,voiceLang);
     }
 
     public String getUserVoice(Context context, String id) {
         return firebase.getUserVoice(context,id);
+    }
+
+    public String getUserVoiceLang(Context context, String id){
+        return firebase.getUserVoiceLang(context,id);
     }
 }

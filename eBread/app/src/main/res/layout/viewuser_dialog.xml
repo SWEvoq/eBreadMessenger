@@ -35,15 +35,30 @@
         android:id="@+id/inputHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Voce Contatto"
+        android:text="Seleziona Voce Contatto"
         android:paddingTop="10pt"
         android:paddingBottom="10pt"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
         android:textStyle="bold"/>
-
     <Spinner
         android:id="@+id/voiceSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10pt" />
+
+    <TextView
+        android:id="@+id/inputLangHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleziona Lingua Contatto"
+        android:paddingTop="10pt"
+        android:paddingBottom="10pt"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+    <Spinner
+        android:id="@+id/voiceLangSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10pt" />

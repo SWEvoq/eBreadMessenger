@@ -36,13 +36,6 @@
     <string name="switch_highlight">Mostra evidenziazione</string>
     <string name="switch_voice">Riproduci voce</string>
     <string name="switch_persistent_highlight">Evidenziazione persistente</string>
-    <string-array name="voices_array">
-        <item>istc-speaker_internazionale-hsmm</item>
-        <item>istc-lucia-hsmm</item>
-    </string-array>
-    <string-array name="voices_languages_array">
-        <item>it</item>
-    </string-array>
     <string-array name="voices_speed_array">
         <item>molto lenta</item>
         <item>lenta</item>

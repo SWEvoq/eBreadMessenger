@@ -148,14 +148,13 @@ public class AddressBookHandler {
         }
     }
 
-    public void setContactVoice(Context context,String userClicked, String voiceName) {
+    public void setContactVoice(Context context,String userClicked, String voiceName, String voiceLang) {
         JSONObject jsonAddressBook = readAddressBook(context);
         if(jsonAddressBook!=null){
             try {
                 JSONObject jsonUserFriends = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                jsonUserFriends.put(userClicked,voiceName);
+                jsonUserFriends.put(userClicked,voiceName+";"+voiceLang);
                 FileOutputStream file = context.openFileOutput("addressbook.txt",context.MODE_PRIVATE);
-                Log.d("Myapp",jsonAddressBook.toString());
                 file.write(jsonAddressBook.toString().getBytes());
                 file.close();
             } catch (JSONException|IOException e) {
@@ -169,17 +168,32 @@ public class AddressBookHandler {
         String result = "";
         if(jsonAddressBook!=null){
             try {
-                result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","");
+                if(!jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","").isEmpty())
+                    result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","").split(";")[0];
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        /*
         if(result.equals(""))
             return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceName();
         else
             return result;
-        */
-        return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceName();
+    }
+
+    public String getUserVoiceLang(Context context,String id) {
+        JSONObject jsonAddressBook = readAddressBook(context);
+        String result = "";
+        if(jsonAddressBook!=null){
+            try {
+                if(!jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","").isEmpty())
+                    result = jsonAddressBook.getJSONObject(FirebaseAuth.getInstance().getCurrentUser().getUid()).getString(id).replace(" ","").split(";")[1];
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if(result.equals(""))
+            return new FirebaseAccessPoint().getVoiceSettings(context).getVoiceLanguage();
+        else
+            return result;
     }
 }
